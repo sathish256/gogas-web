@@ -1,2 +1,0 @@
-# gogas-web
-Web App
