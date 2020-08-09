@@ -21,16 +21,19 @@
       class="bg-light sidenav-secondary pl-3"
       :class="{ show: showSubMenu }"
     >
-      <h6 class="text-navy-blue">MARKETING</h6>
+      <MainMenuOptions v-if="navItems[0].isActive" />
     </b-nav>
   </div>
 </template>
 
 <script>
 import EventBus from "@/event-bus";
+import MainMenuOptions from "@/components/MainMenuOptions";
 
 export default {
   name: "SideBar",
+
+  components: { MainMenuOptions },
 
   mounted() {
     EventBus.$on("toggleSideMenu", () => {
@@ -56,7 +59,7 @@ export default {
 
   methods: {
     toggleSubMenu(index) {
-      this.showSubMenu = !this.navItems[index].isActive;
+      this.showSubMenu = !this.navItems[index].isActive || !this.showSubMenu;
       this.navItems = this.navItems.map((menu, i) => ({
         ...menu,
         isActive: i === index
