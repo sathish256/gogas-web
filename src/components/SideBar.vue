@@ -74,7 +74,7 @@ export default {
 .sidenav-secondary {
   height: 100%;
   position: fixed;
-  top: 71px;
+  top: 70px;
   overflow-x: hidden;
   box-shadow: 0 0 4px #888;
 }

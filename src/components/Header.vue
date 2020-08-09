@@ -37,6 +37,8 @@ export default {
 <style scoped>
 .header {
   z-index: 2;
+  position: fixed;
+  width: 100%;
 }
 .h2 {
   font-size: 1.75rem !important;

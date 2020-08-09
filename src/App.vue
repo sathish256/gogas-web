@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <Header @toggleSideMenu="onToggleSideMenu" />
+    <Header />
     <SideBar />
-    <router-view class="ml-20" />
+    <div class="ml-20 mr-4 pt-16">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -13,10 +15,6 @@ import SideBar from "@/components/SideBar";
 export default {
   name: "App",
 
-  components: { SideBar, Header },
-
-  methods: {
-    onToggleSideMenu() {}
-  }
+  components: { SideBar, Header }
 };
 </script>
