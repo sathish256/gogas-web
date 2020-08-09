@@ -1,8 +1,7 @@
 <template>
   <div>
     <h1>Customer Registration</h1>
-    <b-card>
-      <b-card-text>Organisation Information</b-card-text>
+    <b-card title="Organisation Information">
       <b-form>
         <b-row>
           <b-col cols="6">
@@ -38,17 +37,23 @@
             </b-form-group>
           </b-col>
           <b-col cols="6">
-            <b-form-group label="Geo Location" label-for="org-geolocation">
+            <b-form-group>
+              <label>
+                Geo Location
+                <b-icon icon="joystick" @click="getCurrentLocation" />
+              </label>
               <b-form-input
                 id="org-geolocation"
                 v-model="organisation.geolocation.latitude"
                 placeholder="latitude"
+                disabled
               />
               <b-form-input
                 class="mt-2"
                 id="org-geolocation"
                 v-model="organisation.geolocation.longitude"
                 placeholder="logitutde"
+                disabled
               />
             </b-form-group>
           </b-col>
@@ -56,8 +61,7 @@
       </b-form>
     </b-card>
 
-    <b-card class="mt-3">
-      <b-card-text>Owner Information</b-card-text>
+    <b-card class="mt-3" title="Owner Information">
       <b-form>
         <b-row>
           <b-col cols="6">
@@ -84,8 +88,7 @@
       </b-form>
     </b-card>
 
-    <b-card class="mt-3">
-      <b-card-text>Primary Contact</b-card-text>
+    <b-card class="mt-3" title="Primary Contact">
       <b-form>
         <b-row>
           <b-col cols="6">
@@ -138,6 +141,19 @@ export default {
       owner: {},
       primaryContact: {}
     };
+  },
+
+  methods: {
+    getCurrentLocation() {
+      this.$getLocation({
+        enableHighAccuracy: true
+      }).then(coordinates => {
+        this.organisation.geolocation = {
+          latitude: coordinates.lat,
+          longitude: coordinates.lng
+        };
+      });
+    }
   }
 };
 </script>
@@ -145,5 +161,8 @@ export default {
 <style scoped>
 .card {
   box-shadow: 0 0 4px #888;
+}
+.b-icon {
+  cursor: pointer;
 }
 </style>
