@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="bg-light">
     <Header />
     <SideBar />
     <div class="ml-20 mr-4 pt-16">
