@@ -22,6 +22,7 @@
       :class="{ show: showSubMenu }"
     >
       <MainMenuOptions v-if="navItems[0].isActive" />
+      <AdminOptions v-if="navItems[1].isActive" />
     </b-nav>
   </div>
 </template>
@@ -29,11 +30,12 @@
 <script>
 import EventBus from "@/event-bus";
 import MainMenuOptions from "@/components/MainMenuOptions";
+import AdminOptions from "@/components/AdminOptions";
 
 export default {
   name: "SideBar",
 
-  components: { MainMenuOptions },
+  components: { MainMenuOptions, AdminOptions },
 
   mounted() {
     EventBus.$on("toggleSideMenu", () => {

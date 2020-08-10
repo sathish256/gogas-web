@@ -2,8 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Home from "@/views/Home.vue";
-import CustomerRegistration from "@/views/CustomerRegistration";
 import Marketing from "@/views/Marketing";
+import Manage from "@/views/Manage";
+
+import CustomerRegistration from "@/views/CustomerRegistration";
+import ManageProducts from "@/views/ManageProducts";
 
 Vue.use(VueRouter);
 
@@ -22,6 +25,18 @@ const routes = [
         path: "customer-registration",
         name: "CustomerRegistration",
         component: CustomerRegistration
+      }
+    ]
+  },
+  {
+    path: "/manage",
+    name: "Manage",
+    component: Manage,
+    children: [
+      {
+        path: "products",
+        name: "ManageProducts",
+        component: ManageProducts
       }
     ]
   },

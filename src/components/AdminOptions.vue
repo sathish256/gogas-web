@@ -1,8 +1,8 @@
 <template>
-  <div class="main-menu-options">
-    <h6 class="text-navy-blue">MARKETING</h6>
-    <b-nav-item @click="redirectTo('CustomerRegistration')">
-      Customer Registration
+  <div class="admin-options">
+    <h6 class="text-navy-blue">INVENTORY</h6>
+    <b-nav-item @click="redirectTo('ManageProducts')">
+      Manage Products
     </b-nav-item>
   </div>
 </template>
@@ -11,7 +11,7 @@
 import EventBus from "@/event-bus";
 
 export default {
-  name: "MainMenuOptions",
+  name: "AdminOptions",
 
   methods: {
     redirectTo(name) {
