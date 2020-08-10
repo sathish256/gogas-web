@@ -39,6 +39,14 @@ export default {
   z-index: 3;
   position: fixed;
   width: 100%;
+  background-image: linear-gradient(
+    45deg,
+    transparent,
+    black,
+    transparent,
+    black,
+    transparent
+  );
 }
 .h2 {
   font-size: 1.75rem !important;

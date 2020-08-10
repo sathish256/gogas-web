@@ -4,7 +4,7 @@
     <b-card title="Organisation Information">
       <b-form>
         <b-row>
-          <b-col cols="6">
+          <b-col cols="12" md="6">
             <b-form-group label="Name" label-for="org-name">
               <b-form-input
                 id="org-name"
@@ -14,7 +14,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols="6">
+          <b-col cols="12" md="6">
             <b-form-group label="Landmark" label-for="org-landmark">
               <b-form-input
                 id="org-landmark"
@@ -25,7 +25,7 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col cols="6">
+          <b-col cols="12" md="6">
             <b-form-group label="Address" label-for="org-address">
               <b-form-textarea
                 id="org-address"
@@ -36,7 +36,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols="6">
+          <b-col cols="12" md="6">
             <b-form-group>
               <label>
                 Geo Location
@@ -64,7 +64,7 @@
     <b-card class="mt-3" title="Owner Information">
       <b-form>
         <b-row>
-          <b-col cols="6">
+          <b-col cols="12" md="6">
             <b-form-group label="Name" label-for="owner-name">
               <b-form-input
                 id="owner-name"
@@ -74,7 +74,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols="6">
+          <b-col cols="12" md="6">
             <b-form-group label="Phone" label-for="owner-phone">
               <b-form-input
                 id="owner-phone"
@@ -91,7 +91,7 @@
     <b-card class="mt-3" title="Primary Contact">
       <b-form>
         <b-row>
-          <b-col cols="6">
+          <b-col cols="12" md="6">
             <b-form-group label="Name" label-for="primary-name">
               <b-form-input
                 id="primary-name"
@@ -101,7 +101,7 @@
               />
             </b-form-group>
           </b-col>
-          <b-col cols="6">
+          <b-col cols="12" md="6">
             <b-form-group label="Designation" label-for="primary-designation">
               <b-form-input
                 id="primary-designation"
@@ -113,7 +113,7 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col cols="6">
+          <b-col cols="12" md="6">
             <b-form-group label="Phone" label-for="primary-phone">
               <b-form-input
                 id="primary-phone"
