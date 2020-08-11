@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pr-4">
     <h1>Manage Products</h1>
     <b-card :title="`${product.id ? 'Edit' : 'Add'} Product`">
       <b-form>

@@ -355,7 +355,7 @@ export default {
   cursor: pointer;
 }
 .form-layout {
-  max-height: calc(100vh - 122px);
+  max-height: calc(100vh - 126px);
   overflow: auto;
 }
 </style>
