@@ -36,7 +36,7 @@ export default {
 
 <style scoped>
 .header {
-  z-index: 3;
+  z-index: 99;
   position: fixed;
   width: 100%;
   background-image: linear-gradient(

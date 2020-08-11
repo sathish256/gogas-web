@@ -2,7 +2,7 @@
   <div id="app" class="bg-light">
     <Header />
     <SideBar />
-    <div class="ml-20 mr-4 pt-16">
+    <div class="ml-20 pt-16">
       <router-view />
     </div>
   </div>

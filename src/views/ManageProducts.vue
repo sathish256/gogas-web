@@ -9,7 +9,9 @@
               <b-form-input
                 id="product-name"
                 v-model="product.name"
-                :class="{ 'border-danger': isSubmitted && !product.name }"
+                :class="{
+                  'border-danger': isSubmitted && !product.name.trim()
+                }"
                 required
                 placeholder="Enter product name"
               />
@@ -20,7 +22,9 @@
               <b-form-input
                 id="product-type"
                 v-model="product.type"
-                :class="{ 'border-danger': isSubmitted && !product.type }"
+                :class="{
+                  'border-danger': isSubmitted && !product.type.trim()
+                }"
                 required
                 placeholder="Enter product type"
               />
@@ -31,7 +35,9 @@
               <b-form-input
                 id="product-spec"
                 v-model="product.spec"
-                :class="{ 'border-danger': isSubmitted && !product.spec }"
+                :class="{
+                  'border-danger': isSubmitted && !product.spec.trim()
+                }"
                 required
                 placeholder="Enter product specification"
               />
@@ -64,6 +70,7 @@
         head-variant="light"
         sticky-header
         :bordered="true"
+        :fixed="true"
         :items="products"
         :fields="fields"
         :show-empty="true"
@@ -79,7 +86,12 @@
           >
             <b-icon icon="pencil" />
           </b-button>
-          <b-button variant="danger" size="sm" class="mr-2">
+          <b-button
+            variant="danger"
+            size="sm"
+            class="mr-2"
+            @click="onProductDelete(row.index)"
+          >
             <b-icon icon="trash" />
           </b-button>
         </template>
@@ -121,9 +133,19 @@ export default {
       ],
       isSubmitted: false,
       isValidProduct: true,
-      product: {},
-      products: []
+      product: {
+        name: "",
+        type: "",
+        spec: "",
+        desc: ""
+      }
     };
+  },
+
+  computed: {
+    products() {
+      return this.$store.state.products;
+    }
   },
 
   methods: {
@@ -131,24 +153,30 @@ export default {
       this.product = cloneDeep(this.products[index]);
     },
     onProductDelete(index) {
-      this.products.splice(index, 1);
+      this.$store.dispatch("deleteProduct", index);
     },
     onProductSave() {
       this.isSubmitted = true;
       this.isValidProduct = this.requiredFields.every(
-        field => !!this.product[field]
+        field => !!this.product[field].trim()
       );
 
       if (this.isValidProduct) {
         this.isValidProduct = true;
         if (this.product.id) {
-          this.products = this.products.map(product => {
-            if (product.id === this.product.id) return this.product;
-            return product;
-          });
+          this.$store.dispatch("updateProduct", this.product);
         } else {
-          this.products.push({ id: this.products.length + 1, ...this.product });
+          this.$store.dispatch("addProduct", this.product);
         }
+        this.$bvToast.toast(
+          `Product ${this.product.id ? "Updated" : "Added"}!`,
+          {
+            title: "Success",
+            variant: "success",
+            toaster: "b-toaster-top-center",
+            autoHideDelay: 2000
+          }
+        );
         this.product = {};
         this.isSubmitted = false;
       }

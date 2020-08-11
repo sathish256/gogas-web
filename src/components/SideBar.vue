@@ -83,7 +83,7 @@ export default {
 .sidenav {
   left: 0;
   width: 60px;
-  z-index: 2;
+  z-index: 98;
   .active {
     background-color: var(--dark);
   }
@@ -101,7 +101,7 @@ export default {
   width: 0;
   padding-top: 0.5rem;
   transition: 0.5s;
-  z-index: 1;
+  z-index: 97;
   &.show {
     left: 60px;
     width: 250px;
