@@ -18,5 +18,8 @@ Vue.use(VueGeolocation);
 new Vue({
   router,
   store,
+  beforeCreate() {
+    store.dispatch("fetchProducts");
+  },
   render: h => h(App)
 }).$mount("#app");

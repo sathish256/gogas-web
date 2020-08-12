@@ -1,7 +1,18 @@
 <template>
   <div class="pr-4">
     <h1>Manage Products</h1>
-    <b-card :title="`${product.id ? 'Edit' : 'Add'} Product`">
+    <b-card>
+      <div class="d-flex justify-content-between">
+        <b-card-title :title="`${product.id ? 'Edit' : 'Add'} Product`" />
+        <div class="d-flex flex-row-reverse align-items-center">
+          <b-button variant="success" @click="onProductSave">
+            {{ product.id ? "Update" : "Create" }} Product
+          </b-button>
+          <span class="text-danger mr-3" v-if="!isValidProduct">
+            Please fill all manadatory fields
+          </span>
+        </div>
+      </div>
       <b-form>
         <b-row>
           <b-col cols="12" md="6" lg="3">
@@ -53,14 +64,6 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <div class="d-flex flex-row-reverse align-items-center">
-          <b-button variant="success" @click="onProductSave">
-            {{ product.id ? "Update" : "Create" }} Product
-          </b-button>
-          <span class="text-danger mr-3" v-if="!isValidProduct">
-            Please fill all manadatory fields
-          </span>
-        </div>
       </b-form>
     </b-card>
     <b-card class="mt-3" title="All Products">
@@ -133,13 +136,12 @@ export default {
       ],
       isSubmitted: false,
       isValidProduct: true,
-      product: {
-        name: "",
-        type: "",
-        spec: "",
-        desc: ""
-      }
+      product: {}
     };
+  },
+
+  created() {
+    this.resetData();
   },
 
   computed: {
@@ -155,31 +157,35 @@ export default {
     onProductDelete(index) {
       this.$store.dispatch("deleteProduct", index);
     },
-    onProductSave() {
+    async onProductSave() {
       this.isSubmitted = true;
       this.isValidProduct = this.requiredFields.every(
         field => !!this.product[field].trim()
       );
-
-      if (this.isValidProduct) {
-        this.isValidProduct = true;
-        if (this.product.id) {
-          this.$store.dispatch("updateProduct", this.product);
-        } else {
-          this.$store.dispatch("addProduct", this.product);
-        }
-        this.$bvToast.toast(
-          `Product ${this.product.id ? "Updated" : "Added"}!`,
-          {
-            title: "Success",
-            variant: "success",
-            toaster: "b-toaster-top-center",
-            autoHideDelay: 2000
-          }
-        );
-        this.product = {};
-        this.isSubmitted = false;
+      if (!this.isValidProduct) {
+        return;
       }
+      if (this.product.id) {
+        await this.$store.dispatch("updateProduct", this.product);
+      } else {
+        await this.$store.dispatch("addProduct", this.product);
+      }
+      this.$bvToast.toast(`Product ${this.product.id ? "Updated" : "Added"}!`, {
+        title: "Success",
+        variant: "success",
+        toaster: "b-toaster-top-center",
+        autoHideDelay: 2000
+      });
+      this.resetData();
+    },
+    resetData() {
+      this.isSubmitted = false;
+      this.product = {
+        name: "",
+        type: "",
+        spec: "",
+        desc: ""
+      };
     }
   }
 };
