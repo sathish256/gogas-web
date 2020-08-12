@@ -168,7 +168,7 @@
             <label>Ordered Qty.</label>
           </b-col>
           <b-col cols="2">
-            <label>Sell Price</label>
+            <label>Offered Price (per product)</label>
           </b-col>
           <b-col cols="1">
             <label></label>
@@ -191,17 +191,42 @@
             />
           </b-col>
           <b-col cols="2">
-            <b-form-input v-model="requirement.minQty" min="1" type="number" />
+            <b-form-input
+              v-model="requirement.minQty"
+              min="1"
+              type="number"
+              :class="{
+                'border-danger':
+                  formSubmitted &&
+                  (requirement.minQty < 1 ||
+                    requirement.minQty > requirement.maxQty)
+              }"
+            />
           </b-col>
           <b-col cols="2">
-            <b-form-input v-model="requirement.maxQty" min="1" type="number" />
+            <b-form-input
+              v-model="requirement.maxQty"
+              min="1"
+              type="number"
+              :class="{
+                'border-danger':
+                  formSubmitted &&
+                  (requirement.maxQty < 1 ||
+                    requirement.minQty > requirement.maxQty)
+              }"
+            />
           </b-col>
           <b-col cols="2">
             <b-form-input
               v-model="requirement.orderedQty"
               type="number"
+              min="1"
               :class="{
-                'border-danger': formSubmitted && !requirement.orderedQty
+                'border-danger':
+                  formSubmitted &&
+                  (!requirement.orderedQty ||
+                    requirement.orderedQty > requirement.maxQty ||
+                    requirement.orderedQty < requirement.minQty)
               }"
             />
           </b-col>
@@ -265,11 +290,11 @@ export default {
   methods: {
     onAddProduct() {
       this.requirements.push({
-        productId: "",
+        productId: null,
         minQty: 1,
         maxQty: 1,
-        orderedQty: "",
-        sellPrice: ""
+        orderedQty: null,
+        sellPrice: null
       });
     },
     onDeleteProduct(index) {
@@ -285,6 +310,21 @@ export default {
         };
       });
     },
+    verifyRequirements() {
+      const isFilled = this.requirements.every(r => {
+        const fields = Object.keys(r);
+        return fields.every(field => !!r[field]);
+      });
+      if (!isFilled) return false;
+      return this.requirements.every(r => {
+        return (
+          r.minQty > 0 &&
+          r.maxQty >= r.minQty &&
+          r.orderedQty > r.minQty &&
+          r.orderedQty < r.maxQty
+        );
+      });
+    },
     onRegister() {
       this.formSubmitted = true;
       const isValidOrg = this.organisation.name && this.organisation.address;
@@ -292,11 +332,7 @@ export default {
       const isValidPrimaryContact =
         this.primaryContact.name && this.primaryContact.phone;
       const isValidRequirement =
-        this.requirements.length &&
-        this.requirements.every(requirement => {
-          const fields = Object.keys(requirement);
-          return fields.every(field => !!requirement[field]);
-        });
+        this.requirements.length && this.verifyRequirements();
 
       if (
         isValidOrg &&
@@ -311,8 +347,8 @@ export default {
           requirements: this.requirements,
           executiveId: "test_id",
           dealStatus: "PROPOSED",
-          createdAt: new Date(),
-          updatedAt: new Date()
+          createdAt: new Date().toISOString,
+          updatedAt: new Date().toISOString
         };
         this.$store.dispatch("newRegistration", formData);
         this.$bvToast.toast("Customer Registered!", {

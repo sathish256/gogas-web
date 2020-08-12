@@ -25,7 +25,10 @@ export default new Vuex.Store({
     DELETE_PRODUCT(state, index) {
       state.products.splice(index, 1);
     },
-    newRegistration(state, formData) {
+    FETCH_REGISTRATIONS(state, registrations) {
+      state.registrations = registrations;
+    },
+    NEW_REGISTRATION(state, formData) {
       state.registrations.push({
         id: state.registrations.length + 1,
         ...formData
@@ -37,7 +40,7 @@ export default new Vuex.Store({
       return api
         .getProducts()
         .then(products => {
-          commit("FETCH_PRODUCTS", products.filter(Boolean));
+          commit("FETCH_PRODUCTS", products);
         })
         .catch(error => {
           console.log(error);
@@ -75,8 +78,26 @@ export default new Vuex.Store({
           console.log(error);
         });
     },
-    newRegistration({ commit }, formData) {
-      commit("newRegistration", formData);
+    fetchRegistrations({ commit }) {
+      return api
+        .getRegistrations()
+        .then(registrations => {
+          commit("FETCH_REGISTRATIONS", registrations);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    newRegistration({ commit, state }, formData) {
+      const id = state.registrations.length + 1;
+      return api
+        .createOrUpdateRegistration({ id, ...formData })
+        .then(registeredData => {
+          commit("NEW_REGISTRATION", registeredData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 });

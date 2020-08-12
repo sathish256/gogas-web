@@ -23,5 +23,11 @@ export default {
   },
   createOrUpdateProduct(data) {
     return this.execute("put", `/products/${data.id}.json`, data);
+  },
+  getRegistrations() {
+    return this.execute("get", "/registrations.json");
+  },
+  createOrUpdateRegistration(data) {
+    return this.execute("put", `/registrations/${data.id}.json`, data);
   }
 };
