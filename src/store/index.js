@@ -11,7 +11,7 @@ export default new Vuex.Store({
   },
   mutations: {
     FETCH_PRODUCTS(state, products) {
-      state.products = products;
+      state.products = products.filter(Boolean);
     },
     ADD_PRODUCT(state, product) {
       state.products.push(product);
@@ -26,7 +26,7 @@ export default new Vuex.Store({
       state.products.splice(index, 1);
     },
     FETCH_REGISTRATIONS(state, registrations) {
-      state.registrations = registrations;
+      state.registrations = registrations.filter(Boolean);
     },
     NEW_REGISTRATION(state, formData) {
       state.registrations.push({
