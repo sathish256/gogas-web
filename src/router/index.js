@@ -7,6 +7,7 @@ import Manage from "@/views/Manage";
 
 import CustomerRegistration from "@/views/CustomerRegistration";
 import ManageProducts from "@/views/ManageProducts";
+import AllRegistrations from "@/views/AllRegistrations";
 
 Vue.use(VueRouter);
 
@@ -25,6 +26,11 @@ const routes = [
         path: "customer-registration",
         name: "CustomerRegistration",
         component: CustomerRegistration
+      },
+      {
+        path: "registrations",
+        name: "AllRegistrations",
+        component: AllRegistrations
       }
     ]
   },
