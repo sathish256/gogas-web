@@ -325,7 +325,7 @@ export default {
         );
       });
     },
-    onRegister() {
+    async onRegister() {
       this.formSubmitted = true;
       const isValidOrg = this.organisation.name && this.organisation.address;
       const isValidOwner = this.owner.name && this.owner.phone;
@@ -350,7 +350,7 @@ export default {
           createdAt: new Date().toISOString,
           updatedAt: new Date().toISOString
         };
-        this.$store.dispatch("newRegistration", formData);
+        await this.$store.dispatch("newRegistration", formData);
         this.$bvToast.toast("Customer Registered!", {
           title: "Success",
           variant: "success",

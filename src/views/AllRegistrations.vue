@@ -9,7 +9,7 @@
       <b-table
         class="mt-2"
         head-variant="light"
-        sticky-header
+        sticky-header="500px"
         :bordered="true"
         :fixed="true"
         :items="registrations"
@@ -43,7 +43,7 @@
               class="ml-3"
               size="sm"
               icon
-              @click="updateDealStatus"
+              @click="updateDealStatus(row.index)"
             >
               <b-icon icon="check2" />
             </b-button>
@@ -97,7 +97,17 @@ export default {
     editDealStatus(index) {
       this.editRow = index;
     },
-    updateDealStatus() {
+    async updateDealStatus(index) {
+      await this.$store.dispatch(
+        "updateRegistration",
+        this.registrations[index]
+      );
+      this.$bvToast.toast("Updated Deal Status!", {
+        title: "Success",
+        variant: "success",
+        toaster: "b-toaster-top-center",
+        autoHideDelay: 2000
+      });
       this.editRow = null;
     }
   }

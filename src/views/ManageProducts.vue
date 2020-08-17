@@ -154,8 +154,14 @@ export default {
     onProductEdit(index) {
       this.product = cloneDeep(this.products[index]);
     },
-    onProductDelete(index) {
-      this.$store.dispatch("deleteProduct", index);
+    async onProductDelete(index) {
+      await this.$store.dispatch("deleteProduct", index);
+      this.$bvToast.toast(`Product Deleted!`, {
+        title: "Success",
+        variant: "success",
+        toaster: "b-toaster-top-center",
+        autoHideDelay: 2000
+      });
     },
     async onProductSave() {
       this.isSubmitted = true;

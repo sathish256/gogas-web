@@ -11,7 +11,7 @@ export default new Vuex.Store({
   },
   mutations: {
     FETCH_PRODUCTS(state, products) {
-      state.products = products.filter(Boolean);
+      state.products = products;
     },
     ADD_PRODUCT(state, product) {
       state.products.push(product);
@@ -26,12 +26,15 @@ export default new Vuex.Store({
       state.products.splice(index, 1);
     },
     FETCH_REGISTRATIONS(state, registrations) {
-      state.registrations = registrations.filter(Boolean);
+      state.registrations = registrations;
     },
     NEW_REGISTRATION(state, formData) {
-      state.registrations.push({
-        id: state.registrations.length + 1,
-        ...formData
+      state.registrations.push(formData);
+    },
+    UPDATE_REGISTRATION(state, registration) {
+      state.registrations = state.registrations.map(r => {
+        if (r.ud === registration.id) return registration;
+        return r;
       });
     }
   },
@@ -47,7 +50,7 @@ export default new Vuex.Store({
         });
     },
     addProduct({ commit, state }, product) {
-      const id = state.products.length + 1;
+      const id = state.products.length;
       return api
         .createOrUpdateProduct({ id, ...product })
         .then(addedProduct => {
@@ -89,11 +92,21 @@ export default new Vuex.Store({
         });
     },
     newRegistration({ commit, state }, formData) {
-      const id = state.registrations.length + 1;
+      const id = state.registrations.length;
       return api
         .createOrUpdateRegistration({ id, ...formData })
         .then(registeredData => {
           commit("NEW_REGISTRATION", registeredData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    updateRegistration({ commit }, registration) {
+      return api
+        .createOrUpdateRegistration(registration)
+        .then(() => {
+          commit("UPDATE_REGISTRATION", registration);
         })
         .catch(error => {
           console.log(error);
