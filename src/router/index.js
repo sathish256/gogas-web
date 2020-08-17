@@ -8,6 +8,7 @@ import Manage from "@/views/Manage";
 import CustomerRegistration from "@/views/CustomerRegistration";
 import ManageProducts from "@/views/ManageProducts";
 import AllRegistrations from "@/views/AllRegistrations";
+import AddUser from "@/views/AddUser";
 
 Vue.use(VueRouter);
 
@@ -43,6 +44,11 @@ const routes = [
         path: "products",
         name: "ManageProducts",
         component: ManageProducts
+      },
+      {
+        path: "users/add",
+        name: "AddUser",
+        component: AddUser
       }
     ]
   },
