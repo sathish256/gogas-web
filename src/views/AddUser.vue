@@ -2,7 +2,14 @@
   <div>
     <div class="d-flex justify-content-between pr-4">
       <h1>Add User</h1>
-      <b-button class="my-2" variant="success">Create</b-button>
+      <div class="d-flex flex-row-reverse align-items-center">
+        <b-button class="my-2" variant="success" @click="onCreate"
+          >Create</b-button
+        >
+        <span class="text-danger mr-3" v-if="!isValidUserData"
+          >Please fill all mandatory fields</span
+        >
+      </div>
     </div>
     <div class="form-layout pr-4">
       <b-card title="User Info">
@@ -14,6 +21,10 @@
                   <b-form-input
                     id="first-name"
                     v-model="userInfo.firstName"
+                    :class="{
+                      'border-danger':
+                        formSubmitted && !userInfo.firstName.trim()
+                    }"
                     required
                     placeholder="Enter first name"
                   />
@@ -25,6 +36,10 @@
                     id="last-name"
                     v-model="userInfo.lastName"
                     required
+                    :class="{
+                      'border-danger':
+                        formSubmitted && !userInfo.lastName.trim()
+                    }"
                     placeholder="Enter last name"
                   />
                 </b-form-group>
@@ -35,6 +50,9 @@
                     id="user-phone"
                     v-model="userInfo.phone"
                     required
+                    :class="{
+                      'border-danger': formSubmitted && !userInfo.phone.trim()
+                    }"
                     placeholder="Enter phone"
                   />
                 </b-form-group>
@@ -45,11 +63,14 @@
                     required
                     v-model="userInfo.role"
                     :options="userRoles"
+                    :class="{
+                      'border-danger': formSubmitted && !userInfo.role
+                    }"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null" disabled>
-                        Select Role
-                      </b-form-select-option>
+                      <b-form-select-option :value="null" disabled
+                        >Select Role</b-form-select-option
+                      >
                     </template>
                   </b-form-select>
                 </b-form-group>
@@ -58,8 +79,8 @@
           </b-col>
           <b-col
             cols="12"
-            md="1"
-            offset-md="5"
+            md="2"
+            offset-md="4"
             class="d-flex flex-column justify-content-center"
           >
             <b-img
@@ -78,6 +99,9 @@
               <b-form-input
                 id="house-no"
                 v-model="address.houseNo"
+                :class="{
+                  'border-danger': formSubmitted && !address.houseNo.trim()
+                }"
                 required
                 placeholder="Enter house #"
               />
@@ -88,6 +112,9 @@
               <b-form-input
                 id="street"
                 v-model="address.street"
+                :class="{
+                  'border-danger': formSubmitted && !address.street.trim()
+                }"
                 required
                 placeholder="Enter street"
               />
@@ -130,6 +157,9 @@
               <b-form-input
                 id="pin"
                 v-model="address.pincode"
+                :class="{
+                  'border-danger': formSubmitted && !address.pincode.trim()
+                }"
                 required
                 placeholder="Enter pincode"
               />
@@ -145,6 +175,10 @@
                 <b-form-input
                   id="emergency-name"
                   v-model="emergencyContact.name"
+                  :class="{
+                    'border-danger':
+                      formSubmitted && !emergencyContact.name.trim()
+                  }"
                   required
                   placeholder="Enter name"
                 />
@@ -155,6 +189,10 @@
                 <b-form-input
                   id="emergency-phone"
                   v-model="emergencyContact.phone"
+                  :class="{
+                    'border-danger':
+                      formSubmitted && !emergencyContact.phone.trim()
+                  }"
                   required
                   placeholder="Enter phone"
                 />
@@ -173,6 +211,8 @@ export default {
 
   data() {
     return {
+      isValidUserData: true,
+      formSubmitted: false,
       userInfo: { firstName: "", lastName: "", phone: "", role: null },
       userRoles: ["C & F", "Dealer", "Marketing", "Delivery"],
       address: {
@@ -188,6 +228,23 @@ export default {
         phone: ""
       }
     };
+  },
+
+  methods: {
+    async onCreate() {
+      this.formSubmitted = true;
+      const isValidUser =
+        this.userInfo.firstName &&
+        this.userInfo.lastName &&
+        this.userInfo.phone &&
+        this.userInfo.role;
+      const isValidAddress =
+        this.address.houseNo && this.address.street && this.address.pincode;
+      const isValidEC =
+        this.emergencyContact.name && this.emergencyContact.phone;
+
+      this.isValidUserData = isValidUser && isValidAddress && isValidEC;
+    }
   }
 };
 </script>
