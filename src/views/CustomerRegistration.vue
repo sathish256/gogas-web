@@ -2,9 +2,14 @@
   <div>
     <div class="d-flex justify-content-between pr-4">
       <h1>Customer Registration</h1>
-      <b-button class="my-2" variant="success" @click="onRegister">
-        Register
-      </b-button>
+      <div class="d-flex flex-row-reverse align-items-center">
+        <b-button class="my-2" variant="success" @click="onRegister">
+          Register
+        </b-button>
+        <span class="text-danger mr-3" v-if="!isValidRegistration">
+          Please fill all mandatory fields
+        </span>
+      </div>
     </div>
     <div class="form-layout pr-4">
       <b-card title="Organisation Information">
@@ -270,6 +275,7 @@ export default {
   data() {
     return {
       formSubmitted: false,
+      isValidRegistration: true,
       organisation: {},
       owner: {},
       primaryContact: {},
@@ -334,12 +340,13 @@ export default {
       const isValidRequirement =
         this.requirements.length && this.verifyRequirements();
 
-      if (
+      this.isValidRegistration =
         isValidOrg &&
         isValidOwner &&
         isValidPrimaryContact &&
-        isValidRequirement
-      ) {
+        isValidRequirement;
+
+      if (this.isValidRegistration) {
         const formData = {
           organisation: this.organisation,
           owner: this.owner,

@@ -9,7 +9,7 @@
             {{ product.id ? "Update" : "Create" }} Product
           </b-button>
           <span class="text-danger mr-3" v-if="!isValidProduct">
-            Please fill all manadatory fields
+            Please fill all mandatory fields
           </span>
         </div>
       </div>
