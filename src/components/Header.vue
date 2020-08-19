@@ -10,8 +10,10 @@
           @click="toggleSideMenu"
         />
       </b-nav-item>
+      <b-navbar-nav class="ml-4">
+        <b-nav-item to="/"><h4 class="text-white">GoGas</h4></b-nav-item>
+      </b-navbar-nav>
     </b-navbar-nav>
-    <b-navbar-brand class="ml-4 pt-0">GoGas</b-navbar-brand>
     <b-navbar-nav class="ml-auto">
       <b-nav-item>
         <b-icon shift-v="-2" class="h2 mb-2" icon="power" variant="danger" />

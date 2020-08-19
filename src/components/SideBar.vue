@@ -37,10 +37,20 @@ export default {
 
   components: { MainMenuOptions, AdminOptions },
 
+  created() {
+    this.setActiveMenu(this.$route.path);
+  },
+
   mounted() {
     EventBus.$on("toggleSideMenu", () => {
       this.showSubMenu = !this.showSubMenu;
     });
+  },
+
+  watch: {
+    $route(value) {
+      this.setActiveMenu(value.path);
+    }
   },
 
   data() {
@@ -49,11 +59,13 @@ export default {
       navItems: [
         {
           icon: "file-text",
-          isActive: true
+          isActive: false,
+          paths: ["marketing"]
         },
         {
           icon: "gear-fill",
-          isActive: false
+          isActive: false,
+          paths: ["manage"]
         }
       ]
     };
@@ -66,6 +78,13 @@ export default {
         ...menu,
         isActive: i === index
       }));
+    },
+    setActiveMenu(activeRoute) {
+      const paths = activeRoute.split("/");
+      this.navItems = this.navItems.map(nav => {
+        nav.isActive = nav.paths.some(path => paths.includes(path));
+        return nav;
+      });
     }
   }
 };
