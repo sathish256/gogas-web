@@ -92,6 +92,47 @@
           </b-col>
         </b-row>
       </b-card>
+
+      <b-card class="mt-3" title="Document">
+        <b-row>
+          <b-col cols="12" md="3">
+            <b-form-group label="Type" label-for="type">
+              <b-form-select
+                required
+                v-model="document.type"
+                :options="documentTypes"
+                :class="{
+                  'border-danger': formSubmitted && !documentType.type
+                }"
+              >
+                <template v-slot:first>
+                  <b-form-select-option :value="null" disabled
+                    >Select Type</b-form-select-option
+                  >
+                </template>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="Number" label-for="number">
+              <b-form-input
+                id="number"
+                v-model="document.type"
+                :class="{
+                  'border-danger': formSubmitted && !document.number.trim()
+                }"
+                required
+                placeholder="Enter Number"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="Attachment" label-for="attachment">
+              <b-form-file id="attachment" accept="image/*" />
+            </b-form-group>
+          </b-col>
+        </b-row>
+      </b-card>
       <b-card class="mt-3" title="Address">
         <b-row>
           <b-col cols="12" md="3">
@@ -206,6 +247,8 @@
 </template>
 
 <script>
+import { validateObject } from "@/helpers/utils";
+
 export default {
   name: "AddUser",
 
@@ -214,6 +257,20 @@ export default {
       isValidUserData: true,
       formSubmitted: false,
       userInfo: { firstName: "", lastName: "", phone: "", role: null },
+      documentTypes: [
+        "Aadhar",
+        "Lease agreement",
+        "Telephone/Electricity/Water Bill",
+        "Self-declaration attested by a gazette officer",
+        "Flat allotment/possession letter",
+        "LIC policy",
+        "Driving license",
+        "Voter ID",
+        "Passport",
+        "Ration Card",
+        "House registration document",
+        "Bank/Credit card"
+      ],
       userRoles: ["C & F", "Dealer", "Marketing", "Delivery"],
       address: {
         houseNo: "",
@@ -226,22 +283,31 @@ export default {
       emergencyContact: {
         name: "",
         phone: ""
-      }
+      },
+      document: { type: null }
     };
   },
 
   methods: {
     async onCreate() {
       this.formSubmitted = true;
-      const isValidUser =
-        this.userInfo.firstName &&
-        this.userInfo.lastName &&
-        this.userInfo.phone &&
-        this.userInfo.role;
-      const isValidAddress =
-        this.address.houseNo && this.address.street && this.address.pincode;
-      const isValidEC =
-        this.emergencyContact.name && this.emergencyContact.phone;
+      const isValidUser = validateObject(this.userInfo, [
+        "firstNaem",
+        "lastName",
+        "phone",
+        "role"
+      ]);
+
+      const isValidAddress = validateObject(this.address, [
+        "houseNo",
+        "street",
+        "pincode"
+      ]);
+
+      const isValidEC = validateObject(this.emergencyContact, [
+        "name",
+        "phone"
+      ]);
 
       this.isValidUserData = isValidUser && isValidAddress && isValidEC;
     }
