@@ -61,16 +61,16 @@
                   <b-icon icon="joystick" @click="getCurrentLocation" />
                 </label>
                 <b-form-input
-                  id="org-geolocation"
+                  id="org-latitude"
                   v-model="organisation.geolocation.latitude"
                   placeholder="latitude"
                   disabled
                 />
                 <b-form-input
                   class="mt-2"
-                  id="org-geolocation"
+                  id="org-longitude"
                   v-model="organisation.geolocation.longitude"
-                  placeholder="logitutde"
+                  placeholder="longitude"
                   disabled
                 />
               </b-form-group>
@@ -269,6 +269,8 @@
 </template>
 
 <script>
+import { validateObject } from "@/helpers/utils";
+
 export default {
   name: "CustomerRegistration",
 
@@ -318,8 +320,7 @@ export default {
     },
     verifyRequirements() {
       const isFilled = this.requirements.every(r => {
-        const fields = Object.keys(r);
-        return fields.every(field => !!r[field]);
+        return validateObject(r, Object.keys(r));
       });
       if (!isFilled) return false;
       return this.requirements.every(r => {
@@ -333,10 +334,12 @@ export default {
     },
     async onRegister() {
       this.formSubmitted = true;
-      const isValidOrg = this.organisation.name && this.organisation.address;
-      const isValidOwner = this.owner.name && this.owner.phone;
-      const isValidPrimaryContact =
-        this.primaryContact.name && this.primaryContact.phone;
+      const isValidOrg = validateObject(this.organisation, ["name", "address"]);
+      const isValidOwner = validateObject(this.owner, ["name", "phone"]);
+      const isValidPrimaryContact = validateObject(this.primaryContact, [
+        "name",
+        "phone"
+      ]);
       const isValidRequirement =
         this.requirements.length && this.verifyRequirements();
 

@@ -105,6 +105,7 @@
 
 <script>
 import { cloneDeep } from "lodash";
+import { validateObject } from "@/helpers/utils";
 
 export default {
   name: "ManageProducts",
@@ -112,7 +113,6 @@ export default {
   data() {
     return {
       searchProduct: "",
-      requiredFields: ["name", "type", "spec"],
       fields: [
         {
           key: "name",
@@ -165,9 +165,11 @@ export default {
     },
     async onProductSave() {
       this.isSubmitted = true;
-      this.isValidProduct = this.requiredFields.every(
-        field => !!this.product[field].trim()
-      );
+      this.isValidProduct = validateObject(this.product, [
+        "name",
+        "type",
+        "spec"
+      ]);
       if (!this.isValidProduct) {
         return;
       }
