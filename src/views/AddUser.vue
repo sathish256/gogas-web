@@ -57,6 +57,7 @@
                   />
                 </b-form-group>
               </b-col>
+
               <b-col cols="12" md="6">
                 <b-form-group label="Role" label-for="role">
                   <b-form-select
@@ -97,14 +98,7 @@
         <b-row>
           <b-col cols="12" md="3">
             <b-form-group label="Type" label-for="type">
-              <b-form-select
-                required
-                v-model="document.type"
-                :options="documentTypes"
-                :class="{
-                  'border-danger': formSubmitted && !documentType.type
-                }"
-              >
+              <b-form-select v-model="document.type" :options="documentTypes">
                 <template v-slot:first>
                   <b-form-select-option :value="null" disabled
                     >Select Type</b-form-select-option
@@ -118,10 +112,6 @@
               <b-form-input
                 id="number"
                 v-model="document.type"
-                :class="{
-                  'border-danger': formSubmitted && !document.number.trim()
-                }"
-                required
                 placeholder="Enter Number"
               />
             </b-form-group>
@@ -284,7 +274,7 @@ export default {
         name: "",
         phone: ""
       },
-      document: { type: null }
+      document: { type: null, number: "" }
     };
   },
 
