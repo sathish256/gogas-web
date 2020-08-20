@@ -9,7 +9,7 @@ import CustomerRegistration from "@/views/CustomerRegistration";
 import ManageProducts from "@/views/ManageProducts";
 import AllRegistrations from "@/views/AllRegistrations";
 import AddUser from "@/views/AddUser";
-import ManageDealers from "@/views/ManageDealers";
+import ManageDealership from "@/views/ManageDealership";
 import ManageCnF from "@/views/ManageCnF";
 
 Vue.use(VueRouter);
@@ -53,9 +53,9 @@ const routes = [
         component: ManageCnF
       },
       {
-        path: "dealer",
-        name: "ManageDealers",
-        component: ManageDealers
+        path: "dealershihp",
+        name: "ManageDealership",
+        component: ManageDealership
       },
       {
         path: "users/add",

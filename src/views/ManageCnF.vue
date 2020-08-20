@@ -82,7 +82,7 @@
                   id="office-no"
                   v-model="address.officeNo"
                   :class="{
-                    'border-danger': formSubmitted && !address.officeNo.trim()
+                    'border-danger': formSubmitted && !address.houseNo.trim()
                   }"
                   required
                   placeholder="Enter Office #"
@@ -192,7 +192,7 @@ export default {
       ]);
 
       const isValidAddress = validateObject(this.address, [
-        "officeNo",
+        "houseNo",
         "street",
         "pincode"
       ]);
