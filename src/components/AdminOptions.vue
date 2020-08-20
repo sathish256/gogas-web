@@ -1,9 +1,9 @@
 <template>
   <div class="admin-options">
-    <h6 class="text-navy-blue">INVENTORY</h6>
-    <b-nav-item @click="redirectTo('ManageProducts')">
-      Manage Products
-    </b-nav-item>
+    <h6 class="text-navy-blue mt-4">MANAGE</h6>
+    <b-nav-item @click="redirectTo('ManageCnF')">C&F</b-nav-item>
+    <b-nav-item @click="redirectTo('ManageDealers')">Dealership</b-nav-item>
+    <b-nav-item @click="redirectTo('ManageProducts')">Products</b-nav-item>
     <h6 class="text-navy-blue mt-4">USERS</h6>
     <b-nav-item @click="redirectTo('AddUser')">Add User</b-nav-item>
   </div>
