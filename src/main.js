@@ -19,8 +19,8 @@ new Vue({
   router,
   store,
   beforeCreate() {
-    store.dispatch("fetchProducts");
-    store.dispatch("fetchRegistrations");
+    store.dispatch("fetchAllCAndF");
+    // store.dispatch("fetchRegistrations");
   },
   render: h => h(App)
 }).$mount("#app");

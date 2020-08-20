@@ -1,7 +1,12 @@
 import axios from "axios";
 
+// const client = axios.create({
+//  baseURL: "https://go-gas-16f87.firebaseio.com/",
+//  json: true
+// });
+
 const client = axios.create({
-  baseURL: "https://go-gas-16f87.firebaseio.com/",
+  baseURL: "https://go-gas-service.herokuapp.com/v1/gogas/",
   json: true
 });
 
@@ -15,19 +20,10 @@ export default {
       .then(req => Promise.resolve(req.data))
       .catch(error => Promise.reject(error));
   },
-  getProducts() {
-    return this.execute("get", "/products.json");
+  getAllCAndF() {
+    return this.execute("get", "candf/findall");
   },
-  deleteProduct(id) {
-    return this.execute("delete", `/products/${id}.json`);
-  },
-  createOrUpdateProduct(data) {
-    return this.execute("put", `/products/${data.id}.json`, data);
-  },
-  getRegistrations() {
-    return this.execute("get", "/registrations.json");
-  },
-  createOrUpdateRegistration(data) {
-    return this.execute("put", `/registrations/${data.id}.json`, data);
+  createCAndF(data) {
+    this.execute("post", "candf", data);
   }
 };

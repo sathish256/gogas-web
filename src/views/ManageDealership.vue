@@ -3,12 +3,12 @@
     <div class="d-flex justify-content-between pr-4">
       <h1>Manage Dealership</h1>
       <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate"
-          >Create</b-button
-        >
-        <span class="text-danger mr-3" v-if="!isValidDealershipData"
-          >Please fill all mandatory fields</span
-        >
+        <b-button class="my-2" variant="success" @click="onCreate">
+          Create
+        </b-button>
+        <span class="text-danger mr-3" v-if="!isValidDealershipData">
+          Please fill all mandatory fields
+        </span>
       </div>
     </div>
     <div class="form-layout pr-4">
@@ -80,7 +80,7 @@
               <b-form-group label="Office No" label-for="office-no">
                 <b-form-input
                   id="office-no"
-                  v-model="address.officeNo"
+                  v-model="address.houseNo"
                   :class="{
                     'border-danger': formSubmitted && !address.houseNo.trim()
                   }"

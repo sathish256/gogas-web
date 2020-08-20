@@ -6,10 +6,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    allCAndF: [],
     products: [],
     registrations: []
   },
   mutations: {
+    FETCH_CANDF(state, allCAndF) {
+      state.allCAndF = allCAndF;
+    },
     FETCH_PRODUCTS(state, products) {
       state.products = products;
     },
@@ -107,6 +111,27 @@ export default new Vuex.Store({
         .createOrUpdateRegistration(registration)
         .then(() => {
           commit("UPDATE_REGISTRATION", registration);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    fetchAllCAndF({ commit }) {
+      return api
+        .getAllCAndF()
+        .then(allCAndF => {
+          commit("FETCH_CANDF", allCAndF);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    createCAndF({ commit }, cAndF) {
+      return api
+        .createCAndF(cAndF)
+        .then(resp => {
+          console.log(resp);
+          console.log(commit);
         })
         .catch(error => {
           console.log(error);

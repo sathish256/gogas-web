@@ -3,12 +3,12 @@
     <div class="d-flex justify-content-between pr-4">
       <h1>Manage CnF</h1>
       <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate"
-          >Create</b-button
-        >
-        <span class="text-danger mr-3" v-if="!isValidCnfData"
-          >Please fill all mandatory fields</span
-        >
+        <b-button class="my-2" variant="success" @click="onCreate">
+          Create
+        </b-button>
+        <span class="text-danger mr-3" v-if="!isValidCnfData">
+          Please fill all mandatory fields
+        </span>
       </div>
     </div>
     <div class="form-layout pr-4">
@@ -80,9 +80,9 @@
               <b-form-group label="Office No" label-for="office-no">
                 <b-form-input
                   id="office-no"
-                  v-model="address.officeNo"
+                  v-model="address.houseno"
                   :class="{
-                    'border-danger': formSubmitted && !address.houseNo.trim()
+                    'border-danger': formSubmitted && !address.houseno.trim()
                   }"
                   required
                   placeholder="Enter Office #"
@@ -90,15 +90,15 @@
               </b-form-group>
             </b-col>
             <b-col cols="12" md="3">
-              <b-form-group label="Street" label-for="street">
+              <b-form-group label="Street" label-for="streetname">
                 <b-form-input
-                  id="street"
-                  v-model="address.street"
+                  id="streetname"
+                  v-model="address.streetname"
                   :class="{
-                    'border-danger': formSubmitted && !address.street.trim()
+                    'border-danger': formSubmitted && !address.streetname.trim()
                   }"
                   required
-                  placeholder="Enter street"
+                  placeholder="Enter streetname"
                 />
               </b-form-group>
             </b-col>
@@ -171,8 +171,8 @@ export default {
         ownerPhone: ""
       },
       address: {
-        houseNo: "",
-        street: "",
+        houseno: "",
+        streetname: "",
         locality: "",
         city: "",
         state: "",
@@ -192,12 +192,19 @@ export default {
       ]);
 
       const isValidAddress = validateObject(this.address, [
-        "houseNo",
-        "street",
+        "houseno",
+        "streetname",
         "pincode"
       ]);
 
       this.isValidCnfData = isValidCnf && isValidAddress;
+
+      console.log(this.cnfInfo, this.address);
+      const cAndF = {
+        ...this.cnfInfo,
+        address: this.address
+      };
+      await this.$store.dispatch("createCAndF", cAndF);
     }
   }
 };

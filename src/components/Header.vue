@@ -11,7 +11,7 @@
         />
       </b-nav-item>
       <b-navbar-nav class="ml-4">
-        <b-nav-item to="/"><h4 class="text-white">GoGas</h4></b-nav-item>
+        <b-nav-item to="/"><h4 class="text-white">FuelPedia</h4></b-nav-item>
       </b-navbar-nav>
     </b-navbar-nav>
     <b-navbar-nav class="ml-auto">
