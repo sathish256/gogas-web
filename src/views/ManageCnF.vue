@@ -38,7 +38,7 @@
                     :class="{
                       'border-danger': formSubmitted && !cnfInfo.phone.trim()
                     }"
-                    placeholder="center owner number"
+                    placeholder="Enter Phone"
                   />
                 </b-form-group>
               </b-col>
@@ -52,7 +52,7 @@
                       'border-danger':
                         formSubmitted && !cnfInfo.ownerName.trim()
                     }"
-                    placeholder="owner name"
+                    placeholder="Enter owner name"
                   />
                 </b-form-group>
               </b-col>
@@ -63,8 +63,10 @@
                     id="owner-phone"
                     v-model="cnfInfo.ownerPhone"
                     :class="{
-                      'border-danger': formSubmitted && !cnfInfo.ownerPhone
+                      'border-danger':
+                        formSubmitted && !cnfInfo.ownerPhone.trim()
                     }"
+                    placeholder="Enter Owner Phone"
                   ></b-form-input>
                 </b-form-group>
               </b-col>
@@ -75,15 +77,15 @@
         <div class="mt-3">
           <b-row>
             <b-col cols="12" md="3">
-              <b-form-group label="House No" label-for="House-no">
+              <b-form-group label="Office No" label-for="office-no">
                 <b-form-input
-                  id="house-no"
-                  v-model="address.houseNo"
+                  id="office-no"
+                  v-model="address.officeNo"
                   :class="{
-                    'border-danger': formSubmitted && !address.houseNo.trim()
+                    'border-danger': formSubmitted && !address.officeNo.trim()
                   }"
                   required
-                  placeholder="Enter house #"
+                  placeholder="Enter Office #"
                 />
               </b-form-group>
             </b-col>
@@ -183,15 +185,14 @@ export default {
     async onCreate() {
       this.formSubmitted = true;
       const isValidCnf = validateObject(this.cnfInfo, [
-        "centerName",
-        "centerOwnerNumber",
-        "centerContactNumber",
+        "name",
+        "phone",
         "ownerName",
-        "emailId"
+        "ownerPhone"
       ]);
 
       const isValidAddress = validateObject(this.address, [
-        "houseNo",
+        "officeNo",
         "street",
         "pincode"
       ]);
