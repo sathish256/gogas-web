@@ -1,4 +1,4 @@
-<template>
+s<template>
   <div>
     <div class="d-flex justify-content-between pr-4">
       <h1>Add User</h1>
@@ -282,7 +282,7 @@ export default {
     async onCreate() {
       this.formSubmitted = true;
       const isValidUser = validateObject(this.userInfo, [
-        "firstNaem",
+        "firstName",
         "lastName",
         "phone",
         "role"
