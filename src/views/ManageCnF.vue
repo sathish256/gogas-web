@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between pr-4">
-      <h1>Manage CnF</h1>
+      <h1>Manage C&F</h1>
       <div class="d-flex flex-row-reverse align-items-center">
         <b-button class="my-2" variant="success" @click="onCreate">
           Create
@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="form-layout pr-4">
-      <b-card title="Cnf Info">
+      <b-card title="C&F Info">
         <b-row>
           <b-col cols="12" md="12">
             <b-row>
@@ -80,9 +80,9 @@
               <b-form-group label="Office No" label-for="office-no">
                 <b-form-input
                   id="office-no"
-                  v-model="address.houseno"
+                  v-model="address.doorNo"
                   :class="{
-                    'border-danger': formSubmitted && !address.houseno.trim()
+                    'border-danger': formSubmitted && !address.doorNo.trim()
                   }"
                   required
                   placeholder="Enter Office #"
@@ -90,15 +90,15 @@
               </b-form-group>
             </b-col>
             <b-col cols="12" md="3">
-              <b-form-group label="Street" label-for="streetname">
+              <b-form-group label="Street" label-for="streetName">
                 <b-form-input
-                  id="streetname"
-                  v-model="address.streetname"
+                  id="streetName"
+                  v-model="address.streetName"
                   :class="{
-                    'border-danger': formSubmitted && !address.streetname.trim()
+                    'border-danger': formSubmitted && !address.streetName.trim()
                   }"
                   required
-                  placeholder="Enter streetname"
+                  placeholder="Enter street"
                 />
               </b-form-group>
             </b-col>
@@ -164,21 +164,13 @@ export default {
     return {
       isValidCnfData: true,
       formSubmitted: false,
-      cnfInfo: {
-        name: "",
-        phone: "",
-        ownerName: "",
-        ownerPhone: ""
-      },
-      address: {
-        houseno: "",
-        streetname: "",
-        locality: "",
-        city: "",
-        state: "",
-        pincode: ""
-      }
+      cnfInfo: {},
+      address: {}
     };
+  },
+
+  created() {
+    this.resetData();
   },
 
   methods: {
@@ -192,19 +184,36 @@ export default {
       ]);
 
       const isValidAddress = validateObject(this.address, [
-        "houseno",
-        "streetname",
+        "doorNo",
+        "streetName",
         "pincode"
       ]);
 
       this.isValidCnfData = isValidCnf && isValidAddress;
 
-      console.log(this.cnfInfo, this.address);
       const cAndF = {
         ...this.cnfInfo,
         address: this.address
       };
       await this.$store.dispatch("createCAndF", cAndF);
+      this.$bvToast.toast("Created C&F!", {
+        title: "Success",
+        variant: "success",
+        toaster: "b-toaster-top-center",
+        autoHideDelay: 2000
+      });
+      this.resetData();
+    },
+    resetData() {
+      this.cnfInfo = { name: "", phone: "", ownerName: "", ownerPhone: "" };
+      this.address = {
+        doorNo: "",
+        streetName: "",
+        locality: "",
+        city: "",
+        state: "",
+        pincode: ""
+      };
     }
   }
 };
