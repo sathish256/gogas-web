@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Home from "@/views/Home.vue";
+import Login from "@/views/Login";
 import Marketing from "@/views/Marketing";
 import Manage from "@/views/Manage";
 
@@ -18,7 +19,15 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login
   },
   {
     path: "/marketing",
@@ -35,7 +44,10 @@ const routes = [
         name: "AllRegistrations",
         component: AllRegistrations
       }
-    ]
+    ],
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/manage",
@@ -53,7 +65,7 @@ const routes = [
         component: ManageCnF
       },
       {
-        path: "dealershihp",
+        path: "dealership",
         name: "ManageDealership",
         component: ManageDealership
       },
@@ -62,7 +74,10 @@ const routes = [
         name: "AddUser",
         component: AddUser
       }
-    ]
+    ],
+    meta: {
+      requiresAuth: true
+    }
   },
   { path: "*", redirect: "/" }
 ];
@@ -70,6 +85,19 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   routes
+});
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(route => route.meta.requiresAuth)) {
+    const token = Vue.cookie.get("user_auth");
+    if (!token) {
+      next({ name: "Login" });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

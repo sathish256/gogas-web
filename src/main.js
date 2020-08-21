@@ -2,6 +2,8 @@ import Vue from "vue";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import { BootstrapVueIcons } from "bootstrap-vue";
 import VueGeolocation from "vue-browser-geolocation";
+import VueCookie from "vue-cookie";
+import axios from "axios";
 
 import App from "./App.vue";
 import router from "./router";
@@ -10,17 +12,19 @@ import "./custom.scss";
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$http = axios;
+
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(BootstrapVueIcons);
 Vue.use(VueGeolocation);
+Vue.use(VueCookie);
 
-new Vue({
+const fuelPedia = new Vue({
   router,
   store,
-  beforeCreate() {
-    store.dispatch("fetchAllCAndF");
-    // store.dispatch("fetchRegistrations");
-  },
   render: h => h(App)
-}).$mount("#app");
+});
+fuelPedia.$mount("#app");
+
+export default fuelPedia;

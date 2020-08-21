@@ -1,16 +1,20 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import api from "@/api";
+import apiService from "@/apiService";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    user: null,
     allCAndF: [],
     products: [],
     registrations: []
   },
   mutations: {
+    LOGGED_IN_USER(state, user) {
+      state.user = user;
+    },
     FETCH_CANDF(state, allCAndF) {
       state.allCAndF = allCAndF;
     },
@@ -43,8 +47,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    loggedInUser({ commit }, token) {
+      return apiService.get("loggedinuser", token).then(resp => {
+        commit("LOGGED_IN_USER", resp.data);
+      });
+    },
     fetchProducts({ commit }) {
-      return api
+      return apiService
         .getProducts()
         .then(products => {
           commit("FETCH_PRODUCTS", products);
@@ -55,7 +64,7 @@ export default new Vuex.Store({
     },
     addProduct({ commit, state }, product) {
       const id = state.products.length;
-      return api
+      return apiService
         .createOrUpdateProduct({ id, ...product })
         .then(addedProduct => {
           commit("ADD_PRODUCT", addedProduct);
@@ -65,7 +74,7 @@ export default new Vuex.Store({
         });
     },
     updateProduct({ commit }, product) {
-      return api
+      return apiService
         .createOrUpdateProduct(product)
         .then(() => {
           commit("UPDATE_PRODUCT", product);
@@ -76,7 +85,7 @@ export default new Vuex.Store({
     },
     deleteProduct({ commit, state }, index) {
       const { id } = state.products[index];
-      return api
+      return apiService
         .deleteProduct(id)
         .then(() => {
           commit("DELETE_PRODUCT", index);
@@ -86,7 +95,7 @@ export default new Vuex.Store({
         });
     },
     fetchRegistrations({ commit }) {
-      return api
+      return apiService
         .getRegistrations()
         .then(registrations => {
           commit("FETCH_REGISTRATIONS", registrations);
@@ -97,7 +106,7 @@ export default new Vuex.Store({
     },
     newRegistration({ commit, state }, formData) {
       const id = state.registrations.length;
-      return api
+      return apiService
         .createOrUpdateRegistration({ id, ...formData })
         .then(registeredData => {
           commit("NEW_REGISTRATION", registeredData);
@@ -107,7 +116,7 @@ export default new Vuex.Store({
         });
     },
     updateRegistration({ commit }, registration) {
-      return api
+      return apiService
         .createOrUpdateRegistration(registration)
         .then(() => {
           commit("UPDATE_REGISTRATION", registration);
@@ -117,7 +126,7 @@ export default new Vuex.Store({
         });
     },
     fetchAllCAndF({ commit }) {
-      return api
+      return apiService
         .getAllCAndF()
         .then(allCAndF => {
           commit("FETCH_CANDF", allCAndF);
@@ -127,7 +136,7 @@ export default new Vuex.Store({
         });
     },
     createCAndF({ commit }, cAndF) {
-      return api
+      return apiService
         .createCAndF(cAndF)
         .then(resp => {
           console.log(resp);

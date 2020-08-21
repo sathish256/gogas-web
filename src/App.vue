@@ -1,9 +1,12 @@
 <template>
   <div id="app" class="bg-light">
-    <Header />
-    <SideBar />
-    <div class="ml-20 pt-16">
-      <router-view />
+    <router-view v-if="!isLoggedIn" />
+    <div v-else>
+      <Header />
+      <SideBar />
+      <div class="ml-20 pt-16">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
@@ -15,7 +18,20 @@ import SideBar from "@/components/SideBar";
 export default {
   name: "App",
 
-  components: { SideBar, Header }
+  components: { SideBar, Header },
+
+  computed: {
+    isLoggedIn() {
+      return !!this.$store.state.user;
+    }
+  },
+
+  async created() {
+    const token = this.$cookie.get("user_auth");
+    if (token) {
+      await this.$store.dispatch("loggedInUser", token);
+    }
+  }
 };
 </script>
 
