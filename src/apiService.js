@@ -18,7 +18,7 @@ function intercept(token) {
         fuelPedia.$cookie.delete("user_token");
         fuelPedia.$router.push({ name: "Login" });
       }
-      return error.response;
+      throw new Error(error);
     }
   );
 
@@ -34,11 +34,35 @@ export default {
       .then(response => Promise.resolve(response))
       .catch(error => Promise.reject(error));
   },
+  updatePassword(token, credentials) {
+    const axios = intercept();
+
+    return axios
+      .post(`${APP_BASE_URL}/v1/gogas/user/change-password`, credentials)
+      .then(response => Promise.resolve(response))
+      .catch(error => Promise.reject(error));
+  },
+  reset(credentials) {
+    const axios = intercept();
+
+    return axios
+      .post(`${APP_BASE_URL}/v1/gogas/user/reset-password`, credentials)
+      .then(response => Promise.resolve(response))
+      .catch(error => Promise.reject(error));
+  },
   get(url, token) {
     const axios = intercept(token);
 
     return axios
       .get(`${APP_BASE_URL}/${url}`)
+      .then(response => Promise.resolve(response))
+      .catch(error => Promise.reject(error));
+  },
+  post(url, token, payload) {
+    const axios = intercept(token);
+
+    return axios
+      .post(`${APP_BASE_URL}/${url}`, payload)
       .then(response => Promise.resolve(response))
       .catch(error => Promise.reject(error));
   }

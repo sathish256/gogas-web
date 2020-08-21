@@ -333,42 +333,42 @@ export default {
       });
     },
     async onRegister() {
-      this.formSubmitted = true;
-      const isValidOrg = validateObject(this.organisation, ["name", "address"]);
-      const isValidOwner = validateObject(this.owner, ["name", "phone"]);
-      const isValidPrimaryContact = validateObject(this.primaryContact, [
-        "name",
-        "phone"
-      ]);
-      const isValidRequirement =
-        this.requirements.length && this.verifyRequirements();
-
-      this.isValidRegistration =
-        isValidOrg &&
-        isValidOwner &&
-        isValidPrimaryContact &&
-        isValidRequirement;
-
-      if (this.isValidRegistration) {
-        const formData = {
-          organisation: this.organisation,
-          owner: this.owner,
-          primaryContact: this.primaryContact,
-          requirements: this.requirements,
-          executiveId: "test_id",
-          dealStatus: "PROPOSED",
-          createdAt: new Date().toISOString,
-          updatedAt: new Date().toISOString
-        };
-        await this.$store.dispatch("newRegistration", formData);
-        this.$bvToast.toast("Customer Registered!", {
-          title: "Success",
-          variant: "success",
-          toaster: "b-toaster-top-center",
-          autoHideDelay: 2000
-        });
-        this.resetData();
-      }
+      // this.formSubmitted = true;
+      // const isValidOrg = validateObject(this.organisation, ["name", "address"]);
+      // const isValidOwner = validateObject(this.owner, ["name", "phone"]);
+      // const isValidPrimaryContact = validateObject(this.primaryContact, [
+      //   "name",
+      //   "phone"
+      // ]);
+      // const isValidRequirement =
+      //   this.requirements.length && this.verifyRequirements();
+      //
+      // this.isValidRegistration =
+      //   isValidOrg &&
+      //   isValidOwner &&
+      //   isValidPrimaryContact &&
+      //   isValidRequirement;
+      //
+      // if (this.isValidRegistration) {
+      //   const formData = {
+      //     organisation: this.organisation,
+      //     owner: this.owner,
+      //     primaryContact: this.primaryContact,
+      //     requirements: this.requirements,
+      //     executiveId: "test_id",
+      //     dealStatus: "PROPOSED",
+      //     createdAt: new Date().toISOString,
+      //     updatedAt: new Date().toISOString
+      //   };
+      //   await this.$store.dispatch("newRegistration", formData);
+      //   this.$bvToast.toast("Customer Registered!", {
+      //     title: "Success",
+      //     variant: "success",
+      //     toaster: "b-toaster-top-center",
+      //     autoHideDelay: 2000
+      //   });
+      //   this.resetData();
+      // }
     },
     resetData() {
       this.formSubmitted = false;

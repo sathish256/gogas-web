@@ -15,7 +15,7 @@
       </b-navbar-nav>
     </b-navbar-nav>
     <b-navbar-nav class="ml-auto">
-      <b-nav-item>
+      <b-nav-item @click="logout">
         <b-icon shift-v="-2" class="h2 mb-2" icon="power" variant="danger" />
       </b-nav-item>
     </b-navbar-nav>
@@ -31,6 +31,11 @@ export default {
   methods: {
     toggleSideMenu() {
       EventBus.$emit("toggleSideMenu");
+    },
+    logout() {
+      this.$cookie.delete("user_auth");
+      this.$store.state.user = null;
+      this.$router.replace("/login");
     }
   }
 };

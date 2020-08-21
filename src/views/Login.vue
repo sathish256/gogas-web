@@ -19,9 +19,17 @@
             :class="{ 'border-danger': isSubmitted && !password.trim() }"
           />
         </b-form-group>
-        <b-button variant="primary" @click="onLogin">
-          Login
-        </b-button>
+        <div class="text-danger mb-2" v-if="isLoginFailed">
+          Invalid Credentials
+        </div>
+        <div class="d-flex justify-content-between">
+          <b-button variant="primary" @click="onLogin">
+            Login
+          </b-button>
+          <b-button variant="link" @click="resetPassword"
+            >Forgot Password</b-button
+          >
+        </div>
       </b-card>
     </b-col>
   </b-row>
@@ -36,6 +44,7 @@ export default {
   data() {
     return {
       isSubmitted: false,
+      isLoginFailed: false,
       isValidCredentials: true,
       phone: "",
       password: ""
@@ -45,7 +54,7 @@ export default {
   created() {
     const token = this.$cookie.get("user_auth");
     if (token) {
-      this.$router.push({ name: "Home" });
+      this.$router.replace("/");
     }
   },
 
@@ -54,13 +63,45 @@ export default {
       this.isSubmitted = true;
       this.isValidCredentials = this.phone.trim() && this.password.trim();
       if (this.isValidCredentials) {
-        const resp = await apiService.authenticate({
-          username: this.phone,
-          password: this.password
+        try {
+          const resp = await apiService.authenticate({
+            username: this.phone,
+            password: this.password
+          });
+          this.$cookie.set("user_auth", resp.data.token, { expires: "5h" });
+          await this.$store.dispatch("loggedInUser", resp.data.token);
+          this.$router.push({ name: "Home" });
+        } catch {
+          this.isLoginFailed = true;
+          this.$bvToast.toast("Authentication Error while logging in...", {
+            title: "Error!",
+            variant: "danger",
+            toaster: "b-toaster-top-center",
+            autoHideDelay: 5000
+          });
+        }
+      }
+    },
+    async resetPassword() {
+      try {
+        await apiService.reset({
+          phone: this.phone,
+          newPassword: "newPassword",
+          currentPassword: "currentPassword"
         });
-        this.$cookie.set("user_auth", resp.data.token, { expires: "5h" });
-        await this.$store.dispatch("loggedInUser", resp.data.token);
-        this.$router.push({ name: "Home" });
+        this.$bvToast.toast("New password sent to registered mobile number", {
+          title: "Reset Password",
+          variant: "success",
+          toaster: "b-toaster-top-center",
+          autoHideDelay: 10000
+        });
+      } catch {
+        this.$bvToast.toast("Contact technical support...", {
+          title: "User not registered!",
+          variant: "danger",
+          toaster: "b-toaster-top-center",
+          autoHideDelay: 5000
+        });
       }
     }
   }

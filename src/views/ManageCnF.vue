@@ -73,82 +73,79 @@
             </b-row>
           </b-col>
         </b-row>
-
-        <div class="mt-3">
-          <b-row>
-            <b-col cols="12" md="3">
-              <b-form-group label="Office No" label-for="office-no">
-                <b-form-input
-                  id="office-no"
-                  v-model="address.doorNo"
-                  :class="{
-                    'border-danger': formSubmitted && !address.doorNo.trim()
-                  }"
-                  required
-                  placeholder="Enter Office #"
-                />
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" md="3">
-              <b-form-group label="Street" label-for="streetName">
-                <b-form-input
-                  id="streetName"
-                  v-model="address.streetName"
-                  :class="{
-                    'border-danger': formSubmitted && !address.streetName.trim()
-                  }"
-                  required
-                  placeholder="Enter street"
-                />
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" md="3">
-              <b-form-group label="Locality" label-for="locality">
-                <b-form-input
-                  id="locality"
-                  v-model="address.locality"
-                  required
-                  placeholder="Enter locality"
-                />
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col cols="12" md="3">
-              <b-form-group label="City" label-for="city">
-                <b-form-input
-                  id="city"
-                  v-model="address.city"
-                  required
-                  placeholder="Enter city"
-                />
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" md="3">
-              <b-form-group label="State" label-for="state">
-                <b-form-input
-                  id="state"
-                  v-model="address.state"
-                  required
-                  placeholder="Enter state"
-                />
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" md="3">
-              <b-form-group label="PIN" label-for="pin">
-                <b-form-input
-                  id="pin"
-                  v-model="address.pincode"
-                  :class="{
-                    'border-danger': formSubmitted && !address.pincode.trim()
-                  }"
-                  required
-                  placeholder="Enter pincode"
-                />
-              </b-form-group>
-            </b-col>
-          </b-row>
-        </div>
+        <b-row>
+          <b-col cols="12" md="3">
+            <b-form-group label="Office No" label-for="office-no">
+              <b-form-input
+                id="office-no"
+                v-model="address.doorNo"
+                :class="{
+                  'border-danger': formSubmitted && !address.doorNo.trim()
+                }"
+                required
+                placeholder="Enter Office #"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="Street" label-for="streetName">
+              <b-form-input
+                id="streetName"
+                v-model="address.streetName"
+                :class="{
+                  'border-danger': formSubmitted && !address.streetName.trim()
+                }"
+                required
+                placeholder="Enter street"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="Locality" label-for="locality">
+              <b-form-input
+                id="locality"
+                v-model="address.locality"
+                required
+                placeholder="Enter locality"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="12" md="3">
+            <b-form-group label="City" label-for="city">
+              <b-form-input
+                id="city"
+                v-model="address.city"
+                required
+                placeholder="Enter city"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="State" label-for="state">
+              <b-form-input
+                id="state"
+                v-model="address.state"
+                required
+                placeholder="Enter state"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="PIN" label-for="pin">
+              <b-form-input
+                id="pin"
+                v-model="address.pincode"
+                :class="{
+                  'border-danger': formSubmitted && !address.pincode.trim()
+                }"
+                required
+                placeholder="Enter pincode"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
       </b-card>
     </div>
   </div>
@@ -193,9 +190,12 @@ export default {
 
       const cAndF = {
         ...this.cnfInfo,
-        address: this.address
+        address: this.address,
+        state: "ACTIVE"
       };
-      await this.$store.dispatch("createCAndF", cAndF);
+      const token = this.$cookie.get("user_auth");
+      await this.$store.dispatch("createCAndF", { token, cAndF });
+      await this.$store.dispatch("fetchAllCAndF", token);
       this.$bvToast.toast("Created C&F!", {
         title: "Success",
         variant: "success",
@@ -205,6 +205,7 @@ export default {
       this.resetData();
     },
     resetData() {
+      this.formSubmitted = false;
       this.cnfInfo = { name: "", phone: "", ownerName: "", ownerPhone: "" };
       this.address = {
         doorNo: "",

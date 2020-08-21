@@ -105,7 +105,6 @@
 
 <script>
 import { cloneDeep } from "lodash";
-import { validateObject } from "@/helpers/utils";
 
 export default {
   name: "ManageProducts",
@@ -155,40 +154,50 @@ export default {
       this.product = cloneDeep(this.products[index]);
     },
     async onProductDelete(index) {
-      await this.$store.dispatch("deleteProduct", index);
-      this.$bvToast.toast(`Product Deleted!`, {
-        title: "Success",
-        variant: "success",
-        toaster: "b-toaster-top-center",
-        autoHideDelay: 2000
-      });
+      console.log(index);
+      // await this.$store.dispatch("deleteProduct", index);
+      // this.$bvToast.toast(`Product Deleted!`, {
+      //   title: "Success",
+      //   variant: "success",
+      //   toaster: "b-toaster-top-center",
+      //   autoHideDelay: 2000
+      // });
     },
     async onProductSave() {
-      this.isSubmitted = true;
-      this.isValidProduct = validateObject(this.product, [
-        "name",
-        "type",
-        "spec"
-      ]);
-      if (!this.isValidProduct) {
-        return;
-      }
-      if (this.product.id) {
-        await this.$store.dispatch("updateProduct", this.product);
-      } else {
-        await this.$store.dispatch("addProduct", this.product);
-      }
-      this.$bvToast.toast(`Product ${this.product.id ? "Updated" : "Added"}!`, {
-        title: "Success",
-        variant: "success",
-        toaster: "b-toaster-top-center",
-        autoHideDelay: 2000
-      });
-      this.resetData();
+      // this.isSubmitted = true;
+      // this.isValidProduct = validateObject(this.product, [
+      //   "name",
+      //   "type",
+      //   "spec"
+      // ]);
+      // if (!this.isValidProduct) {
+      //   return;
+      // }
+      // const product = {
+      //   description: this.product.desc,
+      //   name: this.product.name,
+      //   specification: this.product.spec,
+      //   state: "ACTIVE",
+      //   type: this.product.type
+      // };
+      // const token = this.$cookie.get("user_auth");
+      // if (this.product.id) {
+      //   await this.$store.dispatch("updateProduct", product, token);
+      // } else {
+      //   await this.$store.dispatch("addProduct", product, token);
+      // }
+      // this.$bvToast.toast(`Product ${this.product.id ? "Updated" : "Added"}!`, {
+      //   title: "Success",
+      //   variant: "success",
+      //   toaster: "b-toaster-top-center",
+      //   autoHideDelay: 2000
+      // });
+      // this.resetData();
     },
     resetData() {
       this.isSubmitted = false;
       this.product = {
+        id: null,
         name: "",
         type: "",
         spec: "",

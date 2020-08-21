@@ -97,18 +97,19 @@ export default {
     editDealStatus(index) {
       this.editRow = index;
     },
-    async updateDealStatus(index) {
-      await this.$store.dispatch(
-        "updateRegistration",
-        this.registrations[index]
-      );
-      this.$bvToast.toast("Updated Deal Status!", {
-        title: "Success",
-        variant: "success",
-        toaster: "b-toaster-top-center",
-        autoHideDelay: 2000
-      });
-      this.editRow = null;
+    updateDealStatus(index) {
+      console.log(index);
+      // await this.$store.dispatch(
+      //   "updateRegistration",
+      //   this.registrations[index]
+      // );
+      // this.$bvToast.toast("Updated Deal Status!", {
+      //   title: "Success",
+      //   variant: "success",
+      //   toaster: "b-toaster-top-center",
+      //   autoHideDelay: 2000
+      // });
+      // this.editRow = null;
     }
   }
 };

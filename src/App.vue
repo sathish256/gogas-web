@@ -30,6 +30,7 @@ export default {
     const token = this.$cookie.get("user_auth");
     if (token) {
       await this.$store.dispatch("loggedInUser", token);
+      await this.$store.dispatch("fetchAllCAndF", token);
     }
   }
 };

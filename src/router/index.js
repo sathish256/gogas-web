@@ -12,6 +12,7 @@ import AllRegistrations from "@/views/AllRegistrations";
 import AddUser from "@/views/AddUser";
 import ManageDealership from "@/views/ManageDealership";
 import ManageCnF from "@/views/ManageCnF";
+import MyProfile from "@/views/MyProfile";
 
 Vue.use(VueRouter);
 
@@ -73,6 +74,11 @@ const routes = [
         path: "users/add",
         name: "AddUser",
         component: AddUser
+      },
+      {
+        path: "profile",
+        name: "MyProfile",
+        component: MyProfile
       }
     ],
     meta: {

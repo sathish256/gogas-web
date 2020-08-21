@@ -1,6 +1,7 @@
 <template>
   <div class="admin-options">
     <h6 class="text-navy-blue mt-4">MANAGE</h6>
+    <b-nav-item @click="redirectTo('MyProfile')">My Profile</b-nav-item>
     <b-nav-item @click="redirectTo('ManageCnF')">C&F</b-nav-item>
     <b-nav-item @click="redirectTo('ManageDealership')">Dealership</b-nav-item>
     <b-nav-item @click="redirectTo('ManageProducts')">Products</b-nav-item>
