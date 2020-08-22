@@ -10,17 +10,23 @@
       >
         Add New C & F
       </b-button>
-      <div v-if="addOrEdit" class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate">
-          {{ cnfInfo.id ? "Update" : "Create" }}
-        </b-button>
-        <span class="text-danger mr-3" v-if="!isValidCnfData">
-          Please fill all mandatory fields
-        </span>
-      </div>
     </div>
     <div class="form-layout pr-4">
-      <b-card v-if="addOrEdit" title="C & F Info">
+      <b-card v-if="addOrEdit">
+        <div class="d-flex justify-content-between">
+          <b-card-title>C & F Info</b-card-title>
+          <div class="d-flex flex-row-reverse align-items-center">
+            <b-button class="my-2" variant="outline-danger" @click="resetData">
+              Cancel
+            </b-button>
+            <b-button class="my-2 mr-3" variant="success" @click="onCreate">
+              {{ cnfInfo.id ? "Update" : "Create" }}
+            </b-button>
+            <span class="text-danger mr-3" v-if="!isValidCnfData">
+              Please fill all mandatory fields
+            </span>
+          </div>
+        </div>
         <b-row>
           <b-col cols="12" md="3">
             <b-form-group label="Name" label-for="name">
@@ -149,6 +155,7 @@
                 v-model="cnfInfo.status"
                 switch
                 size="lg"
+                :state="cnfInfo.status"
               />
             </b-form-group>
           </b-col>
@@ -278,6 +285,7 @@ export default {
     },
     resetData() {
       this.formSubmitted = false;
+      this.addOrEdit = false;
       this.cnfInfo = {
         name: "",
         phone: "",

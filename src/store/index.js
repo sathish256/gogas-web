@@ -29,7 +29,8 @@ export default new Vuex.Store({
     roles: state => state.roles,
     isAdmin: state => get(state, "user.role", null) === "ADMIN",
     isCAndF: state => get(state, "user.role", null) === "CANDF",
-    allCAndF: state => state.allCAndF
+    allCAndF: state => state.allCAndF,
+    products: state => state.products
   },
   mutations: {
     AUTHENTICATE(state, token) {
