@@ -3,12 +3,12 @@
     <div class="d-flex justify-content-between pr-4">
       <h1>Manage Dealership</h1>
       <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate">
-          Create
-        </b-button>
-        <span class="text-danger mr-3" v-if="!isValidDealershipData">
-          Please fill all mandatory fields
-        </span>
+        <b-button class="my-2" variant="success" @click="onCreate"
+          >Create</b-button
+        >
+        <span class="text-danger mr-3" v-if="!isValidDealershipData"
+          >Please fill all mandatory fields</span
+        >
       </div>
     </div>
     <div class="form-layout pr-4">
@@ -147,6 +147,35 @@
         </b-row>
       </b-card>
     </div>
+    <div class="form-layout pr-4">
+      <b-card class="mt-3" title="Product Alocations">
+        <b-row
+          v-for="(requirement, index) in requirements"
+          :key="index"
+          calss="mb-2"
+        >
+          <b-col cols="3">
+            <b-select
+              v-model="requirement.productId"
+              :options="products"
+              text-field="name"
+              value-field="id"
+            />
+          </b-col>
+          <b-col cols="2">
+            <b-form-input v-model="requirement.quantity" type="number" />
+          </b-col>
+          <b-col cols="1">
+            <b-button variant="danger" @click="onDeleteAllocation(index)">
+              <b-icon icon="trash" />
+            </b-button>
+          </b-col>
+        </b-row>
+        <b-button variant="primary" @click="onAllocation"
+          >Add Alocations</b-button
+        >
+      </b-card>
+    </div>
   </div>
 </template>
 
@@ -157,6 +186,7 @@ export default {
 
   data() {
     return {
+      requirements: [],
       isValidDealershipData: true,
       formSubmitted: false,
       dealerInfo: {
@@ -193,6 +223,15 @@ export default {
       ]);
 
       this.isValidDealershipData = isValidDealership && isValidAddress;
+    },
+    onAllocation() {
+      this.requirements.push({
+        productId: null,
+        quantity: null
+      });
+    },
+    onDeleteAllocation(index) {
+      this.requirements.splice(index, 1);
     }
   }
 };
