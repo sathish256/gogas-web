@@ -95,7 +95,7 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(route => route.meta.requiresAuth)) {
-    const token = Vue.cookie.get("user_auth");
+    const token = localStorage.getItem("user_auth");
     if (!token) {
       next({ name: "Login" });
     } else {

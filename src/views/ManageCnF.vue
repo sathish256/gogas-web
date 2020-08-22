@@ -193,9 +193,8 @@ export default {
         address: this.address,
         state: "ACTIVE"
       };
-      const token = this.$cookie.get("user_auth");
-      await this.$store.dispatch("createCAndF", { token, cAndF });
-      await this.$store.dispatch("fetchAllCAndF", token);
+      await this.$store.dispatch("createCAndF", cAndF);
+      await this.$store.dispatch("fetchAllCAndF");
       this.$bvToast.toast("Created C&F!", {
         title: "Success",
         variant: "success",

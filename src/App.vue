@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="bg-light">
-    <router-view v-if="!isLoggedIn" />
+    <Login v-if="!isLoggedIn" />
     <div v-else>
       <Header />
       <SideBar />
@@ -12,25 +12,24 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Header from "@/components/Header";
 import SideBar from "@/components/SideBar";
+import Login from "@/views/Login";
 
 export default {
   name: "App",
 
-  components: { SideBar, Header },
+  components: { Login, SideBar, Header },
 
   computed: {
-    isLoggedIn() {
-      return !!this.$store.state.user;
-    }
+    ...mapGetters(["isLoggedIn"])
   },
 
   async created() {
-    const token = this.$cookie.get("user_auth");
-    if (token) {
-      await this.$store.dispatch("loggedInUser", token);
-      await this.$store.dispatch("fetchAllCAndF", token);
+    if (this.isLoggedIn) {
+      await this.$store.dispatch("loggedInUser");
+      await this.$store.dispatch("fetchAllCAndF");
     }
   }
 };

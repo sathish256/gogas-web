@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import apiService from "@/apiService";
 
 export default {
@@ -51,9 +52,12 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters(["isLoggedIn"])
+  },
+
   created() {
-    const token = this.$cookie.get("user_auth");
-    if (token) {
+    if (this.isLoggedIn) {
       this.$router.replace("/");
     }
   },
@@ -64,12 +68,11 @@ export default {
       this.isValidCredentials = this.phone.trim() && this.password.trim();
       if (this.isValidCredentials) {
         try {
-          const resp = await apiService.authenticate({
+          await this.$store.dispatch("authenticate", {
             username: this.phone,
             password: this.password
           });
-          this.$cookie.set("user_auth", resp.data.token, { expires: "5h" });
-          await this.$store.dispatch("loggedInUser", resp.data.token);
+          await this.$store.dispatch("loggedInUser");
           this.$router.push({ name: "Home" });
         } catch {
           this.isLoginFailed = true;

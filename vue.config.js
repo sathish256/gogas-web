@@ -1,10 +1,11 @@
 module.exports = {
   devServer: {
     proxy: {
-      "^/api": {
+      "/api": {
         target: "https://go-gas-service.herokuapp.com",
         ws: true,
-        changeOrigin: true
+        changeOrigin: true,
+        pathRewrite: { "^/api": "/" }
       }
     }
   }

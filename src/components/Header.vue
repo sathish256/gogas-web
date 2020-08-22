@@ -33,8 +33,8 @@ export default {
       EventBus.$emit("toggleSideMenu");
     },
     logout() {
-      this.$cookie.delete("user_auth");
-      this.$store.state.user = null;
+      localStorage.removeItem("user_auth");
+      this.$store.dispatch("logout");
       this.$router.replace("/login");
     }
   }

@@ -15,7 +15,8 @@ function intercept(token) {
     error => {
       console.log(error);
       if (error.response.status === 401) {
-        fuelPedia.$cookie.delete("user_token");
+        localStorage.removeItem("user_auth");
+        fuelPedia.$store.dispatch("logout");
         fuelPedia.$router.push({ name: "Login" });
       }
       throw new Error(error);
