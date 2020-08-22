@@ -24,7 +24,9 @@ export default new Vuex.Store({
   getters: {
     isLoggedIn: state => !!state.token,
     user: state => state.user,
-    userUid: state => get(state, "user.uid", null),
+    userId: state => get(state, "user.id", null),
+    userCAndFId: state => get(state, "user.candfId", null),
+    userDealershipId: state => get(state, "user.dealershipId", null),
     status: state => state.status,
     roles: state => state.roles,
     isAdmin: state => get(state, "user.role", null) === "ADMIN",
@@ -90,6 +92,12 @@ export default new Vuex.Store({
         .catch(error => {
           console.log(error);
         });
+    },
+    createProduct({ state }, cAndF) {
+      return apiService.post("v1/gogas/product", state.token, cAndF);
+    },
+    updateProduct({ state }, cAndF) {
+      return apiService.put("v1/gogas/product", state.token, cAndF);
     }
   }
 });

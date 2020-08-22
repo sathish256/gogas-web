@@ -225,7 +225,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["userUid", "allCAndF", "status"])
+    ...mapGetters(["userId", "allCAndF", "status"])
   },
 
   created() {
@@ -253,8 +253,8 @@ export default {
       const cAndF = {
         ...this.cnfInfo,
         address: this.address,
-        createdBy: this.cnfInfo.id ? this.userUid : this.cnfInfo.createdBy,
-        lastmodifiedBy: this.userUid,
+        createdBy: this.cnfInfo.id ? this.cnfInfo.createdBy : this.userId,
+        lastmodifiedBy: this.userId,
         status: this.cnfInfo.status ? "ACTIVE" : "INACTIVE"
       };
       await this.$store.dispatch(
