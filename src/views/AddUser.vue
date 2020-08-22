@@ -3,20 +3,20 @@ s<template>
     <div class="d-flex justify-content-between pr-4">
       <h1>Add User</h1>
       <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate"
-          >Create</b-button
-        >
-        <span class="text-danger mr-3" v-if="!isValidUserData"
-          >Please fill all mandatory fields</span
-        >
+        <b-button class="my-2" variant="success" @click="onCreate">
+          Create
+        </b-button>
+        <span class="text-danger mr-3" v-if="!isValidUserData">
+          Please fill all mandatory fields
+        </span>
       </div>
     </div>
     <div class="form-layout pr-4">
       <b-card title="User Info">
         <b-row>
-          <b-col cols="12" md="6">
+          <b-col cols="12" md="9">
             <b-row>
-              <b-col cols="12" md="6">
+              <b-col cols="12" md="4">
                 <b-form-group label="First Name" label-for="first-name">
                   <b-form-input
                     id="first-name"
@@ -30,7 +30,7 @@ s<template>
                   />
                 </b-form-group>
               </b-col>
-              <b-col cols="12" md="6">
+              <b-col cols="12" md="4">
                 <b-form-group label="Last Name" label-for="last-name">
                   <b-form-input
                     id="last-name"
@@ -44,7 +44,7 @@ s<template>
                   />
                 </b-form-group>
               </b-col>
-              <b-col cols="12" md="6">
+              <b-col cols="12" md="4">
                 <b-form-group label="Phone" label-for="user-phone">
                   <b-form-input
                     id="user-phone"
@@ -57,8 +57,7 @@ s<template>
                   />
                 </b-form-group>
               </b-col>
-
-              <b-col cols="12" md="6">
+              <b-col cols="12" md="4">
                 <b-form-group label="Role" label-for="role">
                   <b-form-select
                     required
@@ -69,9 +68,23 @@ s<template>
                     }"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null" disabled
-                        >Select Role</b-form-select-option
-                      >
+                      <b-form-select-option :value="null" disabled>
+                        Select Role
+                      </b-form-select-option>
+                    </template>
+                  </b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12" md="4" v-if="userInfo.role !== 'ADMIN'">
+                <b-form-group label="C & F" label-for="cnf">
+                  <b-form-select
+                    v-model="userInfo.candF"
+                    :options="cAndFOptions"
+                  >
+                    <template v-slot:first>
+                      <b-form-select-option :value="null">
+                        Select C & F
+                      </b-form-select-option>
                     </template>
                   </b-form-select>
                 </b-form-group>
@@ -81,7 +94,7 @@ s<template>
           <b-col
             cols="12"
             md="2"
-            offset-md="4"
+            offset-md="1"
             class="d-flex flex-column justify-content-center"
           >
             <b-img
@@ -100,9 +113,9 @@ s<template>
             <b-form-group label="Type" label-for="type">
               <b-form-select v-model="document.type" :options="documentTypes">
                 <template v-slot:first>
-                  <b-form-select-option :value="null" disabled
-                    >Select Type</b-form-select-option
-                  >
+                  <b-form-select-option :value="null" disabled>
+                    Select Type
+                  </b-form-select-option>
                 </template>
               </b-form-select>
             </b-form-group>
@@ -237,6 +250,8 @@ s<template>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { get } from "lodash";
 import { validateObject } from "@/helpers/utils";
 
 export default {
@@ -246,7 +261,14 @@ export default {
     return {
       isValidUserData: true,
       formSubmitted: false,
-      userInfo: { firstName: "", lastName: "", phone: "", role: null },
+      userInfo: {
+        firstName: "",
+        lastName: "",
+        phone: "",
+        role: null,
+        candF: null,
+        dealership: null
+      },
       documentTypes: [
         "Aadhar",
         "Lease agreement",
@@ -261,7 +283,6 @@ export default {
         "House registration document",
         "Bank/Credit card"
       ],
-      userRoles: ["C & F", "Dealer", "Marketing", "Delivery"],
       address: {
         houseNo: "",
         street: "",
@@ -276,6 +297,30 @@ export default {
       },
       document: { type: null, number: "" }
     };
+  },
+
+  computed: {
+    ...mapGetters(["isAdmin", "isCAndF", "roles", "allCAndF", "user"]),
+    userRoles() {
+      if (this.isAdmin) {
+        return this.roles;
+      }
+      if (this.isCAndF) {
+        return this.roles.filter(role => role.value !== "ADMIN");
+      }
+      return this.roles.filter(
+        role => role.value !== "ADMIN" && role.value !== "CANDF"
+      );
+    },
+    cAndFOptions() {
+      if (this.isAdmin) {
+        return this.allCAndF.map(c => ({ value: c.id, text: c.name }));
+      }
+      return {
+        value: get(this.user, "candF.id", null),
+        text: get(this.user, "candF.name", null)
+      };
+    }
   },
 
   methods: {

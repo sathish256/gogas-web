@@ -1,7 +1,7 @@
 <template>
   <b-navbar class="header px-2" toggleable="lg" type="dark" variant="dark">
     <b-navbar-nav>
-      <b-nav-item>
+      <b-nav-item v-if="isLoggedIn">
         <b-icon
           shift-v="-2"
           class="h2 mb-2"
@@ -11,10 +11,10 @@
         />
       </b-nav-item>
       <b-navbar-nav class="ml-4">
-        <b-nav-item to="/"><h4 class="text-white">FuelPedia</h4></b-nav-item>
+        <b-nav-item to="/"><h4 class="text-white">FuelConnect</h4></b-nav-item>
       </b-navbar-nav>
     </b-navbar-nav>
-    <b-navbar-nav class="ml-auto">
+    <b-navbar-nav v-if="isLoggedIn" class="ml-auto">
       <b-nav-item @click="logout">
         <b-icon shift-v="-2" class="h2 mb-2" icon="power" variant="danger" />
       </b-nav-item>
@@ -23,10 +23,15 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import EventBus from "@/event-bus";
 
 export default {
   name: "Header",
+
+  computed: {
+    ...mapGetters(["isLoggedIn"])
+  },
 
   methods: {
     toggleSideMenu() {

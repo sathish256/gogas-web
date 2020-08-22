@@ -152,6 +152,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { validateObject } from "@/helpers/utils";
 
 export default {
@@ -164,6 +165,10 @@ export default {
       cnfInfo: {},
       address: {}
     };
+  },
+
+  computed: {
+    ...mapGetters(["userUid"])
   },
 
   created() {
@@ -191,6 +196,8 @@ export default {
       const cAndF = {
         ...this.cnfInfo,
         address: this.address,
+        createdby: this.userUid,
+        lastmodifiedby: this.userUid,
         state: "ACTIVE"
       };
       await this.$store.dispatch("createCAndF", cAndF);

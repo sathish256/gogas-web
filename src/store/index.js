@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import apiService from "@/apiService";
+import { get } from "lodash";
 
 Vue.use(Vuex);
 
@@ -8,12 +9,27 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem("user_auth") || null,
     user: null,
+    states: ["ACTIVE", "INACTIVE"],
+    roles: [
+      { value: "ADMIN", text: "Admin" },
+      { value: "CANDF", text: "C & F" },
+      { value: "DEALER", text: "Dealer" },
+      { value: "MARKETING", text: "Marketing" },
+      { value: "DELIVERY", text: "Delivery" }
+    ],
     allCAndF: [],
     products: [],
     registrations: []
   },
   getters: {
-    isLoggedIn: state => !!state.token
+    isLoggedIn: state => !!state.token,
+    user: state => state.user,
+    userUid: state => get(state, "user.uid", null),
+    states: state => state.states,
+    roles: state => state.roles,
+    isAdmin: state => get(state, "user.role", null) === "ADMIN",
+    isCAndF: state => get(state, "user.role", null) === "CANDF",
+    allCAndF: state => state.allCAndF
   },
   mutations: {
     AUTHENTICATE(state, token) {

@@ -1,8 +1,8 @@
 <template>
   <div id="app" class="bg-light">
+    <Header />
     <Login v-if="!isLoggedIn" />
     <div v-else>
-      <Header />
       <SideBar />
       <div class="ml-20 pt-16">
         <router-view />

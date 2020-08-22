@@ -2,52 +2,60 @@
   <div>
     <div class="d-flex justify-content-between pr-4">
       <h1>Manage Profile</h1>
-      <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onUpdate">
-          Update
-        </b-button>
-        <span class="text-danger mr-3" v-if="!isValidInfo">
-          {{ errorMessage }}
-        </span>
-      </div>
     </div>
-    <b-card>
-      <b-form-group label="Phone" label-for="phone">
-        <b-form-input
-          id="phone"
-          v-model="phone"
-          placeholder="Enter phone"
-          :class="{ 'border-danger': isSubmitted && !phone.trim() }"
-        />
-      </b-form-group>
-      <b-form-group label="Current Password" label-for="current-password">
-        <b-form-input
-          id="current-password"
-          v-model="currentPassword"
-          placeholder="Enter current password"
-          type="password"
-          :class="{ 'border-danger': isSubmitted && !currentPassword.trim() }"
-        />
-      </b-form-group>
-      <b-form-group label="New Password" label-for="new-password">
-        <b-form-input
-          id="new-password"
-          v-model="newPassword"
-          placeholder="Enter new Password (8 - 16 characters)"
-          type="password"
-          :class="{ 'border-danger': isSubmitted && !newPassword.trim() }"
-        />
-      </b-form-group>
-      <b-form-group label="Confirm Password" label-for="confirm-password">
-        <b-form-input
-          id="confirm-password"
-          v-model="confirmPassword"
-          placeholder="Enter Password (8 - 16 characters)"
-          type="password"
-          :class="{ 'border-danger': isSubmitted && !confirmPassword.trim() }"
-        />
-      </b-form-group>
-    </b-card>
+    <b-row>
+      <b-col cols="12" md="3">
+        <b-card title="Change Password">
+          <b-form-group label="Phone" label-for="phone">
+            <b-form-input
+              id="phone"
+              v-model="phone"
+              placeholder="Enter phone"
+              :class="{ 'border-danger': isSubmitted && !phone.trim() }"
+            />
+          </b-form-group>
+          <b-form-group label="Current Password" label-for="current-password">
+            <b-form-input
+              id="current-password"
+              v-model="currentPassword"
+              placeholder="Enter current password"
+              type="password"
+              :class="{
+                'border-danger': isSubmitted && !currentPassword.trim()
+              }"
+            />
+          </b-form-group>
+          <b-form-group label="New Password" label-for="new-password">
+            <b-form-input
+              id="new-password"
+              v-model="newPassword"
+              placeholder="Enter new Password (8 - 16 characters)"
+              type="password"
+              :class="{ 'border-danger': isSubmitted && !newPassword.trim() }"
+            />
+          </b-form-group>
+          <b-form-group label="Confirm Password" label-for="confirm-password">
+            <b-form-input
+              id="confirm-password"
+              v-model="confirmPassword"
+              placeholder="Enter Password (8 - 16 characters)"
+              type="password"
+              :class="{
+                'border-danger': isSubmitted && !confirmPassword.trim()
+              }"
+            />
+          </b-form-group>
+          <div class="d-flex align-items-center">
+            <b-button class="my-2" variant="success" @click="onUpdate">
+              Update
+            </b-button>
+            <span class="text-danger ml-3" v-if="!isValidInfo">
+              {{ errorMessage }}
+            </span>
+          </div>
+        </b-card>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -80,7 +88,13 @@ export default {
         this.errorMessage = "Please enter valid credentials";
         return;
       }
-      if (this.newPassword.trim() === this.confirmPassword.trim()) {
+      if (this.newPassword.trim() !== this.confirmPassword.trim()) {
+        this.isValidInfo = false;
+        this.errorMessage = "New password and confirm password don't match";
+      } else if (this.newPassword.length < 8 || this.newPassword.length > 16) {
+        this.isValidInfo = false;
+        this.errorMessage = "New password should be 8 - 16 characters";
+      } else {
         try {
           const token = this.$cookie.get("user_auth");
           await apiService.updatePassword(token, {
@@ -102,9 +116,6 @@ export default {
             autoHideDelay: 5000
           });
         }
-      } else {
-        this.isValidInfo = false;
-        this.errorMessage = "New password and confirm password should be same";
       }
     }
   }
