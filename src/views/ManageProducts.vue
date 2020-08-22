@@ -25,6 +25,7 @@
                 }"
                 required
                 placeholder="Enter product name"
+                :disabled="!isAdmin"
               />
             </b-form-group>
           </b-col>
@@ -38,6 +39,7 @@
                 }"
                 required
                 placeholder="Enter product type"
+                :disabled="!isAdmin"
               />
             </b-form-group>
           </b-col>
@@ -51,6 +53,7 @@
                 }"
                 required
                 placeholder="Enter product specification"
+                :disabled="!isAdmin"
               />
             </b-form-group>
           </b-col>
@@ -60,6 +63,7 @@
                 id="product-desc"
                 v-model="product.description"
                 placeholder="Enter product description"
+                :disabled="!isAdmin"
               />
             </b-form-group>
           </b-col>
@@ -101,20 +105,39 @@
         :bordered="true"
         :fixed="true"
         :items="products"
-        :fields="fields"
+        :fields="tableFields"
         :show-empty="true"
         :filter="searchProduct"
         empty-text="No Products Available"
       >
         <template v-slot:cell(status)="row">
-          <b-button
-            variant="primary"
-            size="sm"
-            class="mr-2"
-            @click="onProductEdit(row.index)"
-          >
-            <b-icon icon="pencil" />
-          </b-button>
+          <div class="d-flex justify-content-between">
+            {{ status[row.item.status] }}
+            <b-button
+              variant="primary"
+              size="sm"
+              class="mr-2"
+              @click="onProductEdit(row.index)"
+            >
+              <b-icon icon="pencil" />
+            </b-button>
+          </div>
+        </template>
+        <template v-slot:cell(cAndFPrice)="row">
+          {{ getCAndFPrice(row.item) }}
+        </template>
+        <template v-slot:cell(price)="row">
+          <div class="d-flex justify-content-between">
+            {{ isCAndF ? getCAndFPrice(row.item) : getDealerPrice(row.item) }}
+            <b-button
+              variant="primary"
+              size="sm"
+              class="mr-2"
+              @click="onProductEdit(row.index)"
+            >
+              <b-icon icon="pencil" />
+            </b-button>
+          </div>
         </template>
       </b-table>
     </b-card>
@@ -134,7 +157,6 @@ export default {
       cAndFPrice: 0,
       dealershipPrice: 0,
       searchProduct: "",
-      fields: ["name", "type", "specification", "description", "status"],
       isSubmitted: false,
       isValidProduct: true,
       product: {}
@@ -154,7 +176,17 @@ export default {
       "isCAndF",
       "userCAndFId",
       "userDealershipId"
-    ])
+    ]),
+    tableFields() {
+      const fields = ["name", "type", "specification", "description"];
+      if (this.isAdmin) {
+        return [...fields, "status"];
+      }
+      if (this.isCAndF) {
+        return [...fields, "price"];
+      }
+      return [...fields, { key: "cAndFPrice", label: "C & F Price" }, "price"];
+    }
   },
 
   methods: {
@@ -199,6 +231,7 @@ export default {
         product.id ? "updateProduct" : "createProduct",
         product
       );
+      await this.$store.dispatch("fetchAllProducts");
       this.$bvToast.toast(`Product ${this.product.id ? "Updated" : "Added"}!`, {
         title: "Success",
         variant: "success",

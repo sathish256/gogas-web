@@ -26,10 +26,11 @@ export default {
     ...mapGetters(["isLoggedIn"])
   },
 
-  async created() {
+  created() {
     if (this.isLoggedIn) {
-      await this.$store.dispatch("loggedInUser");
-      await this.$store.dispatch("fetchAllCAndF");
+      this.$store.dispatch("loggedInUser");
+      this.$store.dispatch("fetchAllCAndF");
+      this.$store.dispatch("fetchAllProducts");
     }
   }
 };

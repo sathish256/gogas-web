@@ -183,7 +183,7 @@
           </template>
           <template v-slot:cell(status)="row">
             <div class="d-flex justify-content-between">
-              {{ status[[row.item.status]] }}
+              {{ status[row.item.status] }}
               <b-button
                 variant="primary"
                 size="sm"

@@ -83,7 +83,7 @@ export default new Vuex.Store({
     updateCAndF({ state }, cAndF) {
       return apiService.put("v1/gogas/candf", state.token, cAndF);
     },
-    fetchProducts({ commit, state }) {
+    fetchAllProducts({ commit, state }) {
       return apiService
         .get("v1/gogas/product/findall", state.token)
         .then(resp => {
