@@ -207,9 +207,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.card {
-  box-shadow: 0 0 4px #888;
-}
-</style>
