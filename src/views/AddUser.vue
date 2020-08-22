@@ -89,6 +89,24 @@ s<template>
                   </b-form-select>
                 </b-form-group>
               </b-col>
+              <b-col
+                cols="12"
+                md="4"
+                v-if="userInfo.role !== 'ADMIN' && userInfo.role !== 'CANDF'"
+              >
+                <b-form-group label="Dealership" label-for="dealership">
+                  <b-form-select
+                    v-model="userInfo.dealership"
+                    :options="dealershipOptions"
+                  >
+                    <template v-slot:first>
+                      <b-form-select-option :value="null">
+                        Select Dealership
+                      </b-form-select-option>
+                    </template>
+                  </b-form-select>
+                </b-form-group>
+              </b-col>
             </b-row>
           </b-col>
           <b-col
@@ -320,6 +338,9 @@ export default {
         value: get(this.user, "candF.id", null),
         text: get(this.user, "candF.name", null)
       };
+    },
+    dealershipOptions() {
+      return [];
     }
   },
 

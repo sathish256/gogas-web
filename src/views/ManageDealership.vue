@@ -38,7 +38,7 @@
                     :class="{
                       'border-danger': formSubmitted && !dealerInfo.phone.trim()
                     }"
-                    placeholder="Enter Phone"
+                    placeholder="Enter phone"
                   />
                 </b-form-group>
               </b-col>
@@ -56,7 +56,6 @@
                   />
                 </b-form-group>
               </b-col>
-
               <b-col cols="12" md="3">
                 <b-form-group label="Owner Phone" label-for="owner-phone">
                   <b-form-input
@@ -66,89 +65,86 @@
                       'border-danger':
                         formSubmitted && !dealerInfo.ownerPhone.trim()
                     }"
-                    placeholder="Enter Owner Phone"
-                  ></b-form-input>
+                    placeholder="Enter owner phone"
+                  />
                 </b-form-group>
               </b-col>
             </b-row>
           </b-col>
         </b-row>
-
-        <div class="mt-3">
-          <b-row>
-            <b-col cols="12" md="3">
-              <b-form-group label="Office No" label-for="office-no">
-                <b-form-input
-                  id="office-no"
-                  v-model="address.houseNo"
-                  :class="{
-                    'border-danger': formSubmitted && !address.houseNo.trim()
-                  }"
-                  required
-                  placeholder="Enter Office #"
-                />
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" md="3">
-              <b-form-group label="Street" label-for="street">
-                <b-form-input
-                  id="street"
-                  v-model="address.street"
-                  :class="{
-                    'border-danger': formSubmitted && !address.street.trim()
-                  }"
-                  required
-                  placeholder="Enter street"
-                />
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" md="3">
-              <b-form-group label="Locality" label-for="locality">
-                <b-form-input
-                  id="locality"
-                  v-model="address.locality"
-                  required
-                  placeholder="Enter locality"
-                />
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col cols="12" md="3">
-              <b-form-group label="City" label-for="city">
-                <b-form-input
-                  id="city"
-                  v-model="address.city"
-                  required
-                  placeholder="Enter city"
-                />
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" md="3">
-              <b-form-group label="State" label-for="state">
-                <b-form-input
-                  id="state"
-                  v-model="address.state"
-                  required
-                  placeholder="Enter state"
-                />
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" md="3">
-              <b-form-group label="PIN" label-for="pin">
-                <b-form-input
-                  id="pin"
-                  v-model="address.pincode"
-                  :class="{
-                    'border-danger': formSubmitted && !address.pincode.trim()
-                  }"
-                  required
-                  placeholder="Enter pincode"
-                />
-              </b-form-group>
-            </b-col>
-          </b-row>
-        </div>
+        <b-row>
+          <b-col cols="12" md="3">
+            <b-form-group label="Office No" label-for="office-no">
+              <b-form-input
+                id="office-no"
+                v-model="address.houseNo"
+                :class="{
+                  'border-danger': formSubmitted && !address.houseNo.trim()
+                }"
+                required
+                placeholder="Enter Office #"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="Street" label-for="street">
+              <b-form-input
+                id="street"
+                v-model="address.street"
+                :class="{
+                  'border-danger': formSubmitted && !address.street.trim()
+                }"
+                required
+                placeholder="Enter street"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="Locality" label-for="locality">
+              <b-form-input
+                id="locality"
+                v-model="address.locality"
+                required
+                placeholder="Enter locality"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="12" md="3">
+            <b-form-group label="City" label-for="city">
+              <b-form-input
+                id="city"
+                v-model="address.city"
+                required
+                placeholder="Enter city"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="State" label-for="state">
+              <b-form-input
+                id="state"
+                v-model="address.state"
+                required
+                placeholder="Enter state"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="PIN" label-for="pin">
+              <b-form-input
+                id="pin"
+                v-model="address.pincode"
+                :class="{
+                  'border-danger': formSubmitted && !address.pincode.trim()
+                }"
+                required
+                placeholder="Enter pincode"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
       </b-card>
     </div>
   </div>
