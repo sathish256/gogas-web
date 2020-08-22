@@ -1,18 +1,18 @@
 <template>
   <div>
     <div class="d-flex justify-content-between pr-4">
-      <h1>Manage C&F</h1>
+      <h1>Manage C & F</h1>
       <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate">
-          Create
-        </b-button>
-        <span class="text-danger mr-3" v-if="!isValidCnfData">
-          Please fill all mandatory fields
-        </span>
+        <b-button class="my-2" variant="success" @click="onCreate"
+          >Create</b-button
+        >
+        <span class="text-danger mr-3" v-if="!isValidCnfData"
+          >Please fill all mandatory fields</span
+        >
       </div>
     </div>
     <div class="form-layout pr-4">
-      <b-card title="C&F Info">
+      <b-card title="C & F Info">
         <b-row>
           <b-col cols="12" md="12">
             <b-row>
@@ -148,11 +148,46 @@
         </b-row>
       </b-card>
     </div>
+    <div class="form-layout pr-4">
+      <b-card title="All C & f">
+        <b-table
+          class="mt-3"
+          head-variant="light"
+          sticky-header
+          :bordered="true"
+          :fixed="true"
+          :items="allCAndF"
+          :fields="tableFields"
+          :show-empty="true"
+          empty-text="No C & F Available"
+        >
+          <template v-slot:cell(owner)="data"
+            >{{ data.item.ownerName }} ({{ data.item.ownerPhone }})</template
+          >
+          <template v-slot:cell(address)="data">
+            {{ data.item.address.doorNo }}, {{ data.item.address.streetName }},
+            {{ data.item.address.locality }}, {{ data.item.address.city }} -
+            {{ data.item.address.pincode }}
+          </template>
+          <template v-slot:cell(status)="row">
+            <b-button
+              variant="primary"
+              size="sm"
+              class="mr-2"
+              @click="onEdit(row.index)"
+            >
+              <b-icon icon="pencil" />
+            </b-button>
+          </template>
+        </b-table>
+      </b-card>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { cloneDeep } from "lodash";
 import { validateObject } from "@/helpers/utils";
 
 export default {
@@ -160,6 +195,12 @@ export default {
 
   data() {
     return {
+      tableFields: [
+        "name",
+        { key: "owner", label: "Owner Name" },
+        "address",
+        "status"
+      ],
       isValidCnfData: true,
       formSubmitted: false,
       cnfInfo: {},
@@ -168,7 +209,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["userUid"])
+    ...mapGetters(["userUid", "allCAndF"])
   },
 
   created() {
@@ -209,6 +250,16 @@ export default {
         autoHideDelay: 2000
       });
       this.resetData();
+    },
+    onEdit(index) {
+      const selectedCAndF = cloneDeep(this.allCAndF[index]);
+      this.cnfInfo = {
+        name: selectedCAndF.name,
+        phone: selectedCAndF.phone,
+        ownerName: selectedCAndF.ownerName,
+        ownerPhone: selectedCAndF.ownerPhone
+      };
+      this.address = selectedCAndF.address;
     },
     resetData() {
       this.formSubmitted = false;
