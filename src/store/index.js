@@ -9,7 +9,7 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem("user_auth") || null,
     user: null,
-    states: ["ACTIVE", "INACTIVE"],
+    status: { ACTIVE: "Active", INACTIVE: "Inactive" },
     roles: [
       { value: "ADMIN", text: "Admin" },
       { value: "CANDF", text: "C & F" },
@@ -25,7 +25,7 @@ export default new Vuex.Store({
     isLoggedIn: state => !!state.token,
     user: state => state.user,
     userUid: state => get(state, "user.uid", null),
-    states: state => state.states,
+    status: state => state.status,
     roles: state => state.roles,
     isAdmin: state => get(state, "user.role", null) === "ADMIN",
     isCAndF: state => get(state, "user.role", null) === "CANDF",
@@ -76,6 +76,9 @@ export default new Vuex.Store({
     },
     createCAndF({ state }, cAndF) {
       return apiService.post("v1/gogas/candf", state.token, cAndF);
+    },
+    updateCAndF({ state }, cAndF) {
+      return apiService.put("v1/gogas/candf", state.token, cAndF);
     },
     fetchProducts({ commit, state }) {
       return apiService

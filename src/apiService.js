@@ -66,5 +66,13 @@ export default {
       .post(`${APP_BASE_URL}/${url}`, payload)
       .then(response => Promise.resolve(response))
       .catch(error => Promise.reject(error));
+  },
+  put(url, token, payload) {
+    const axios = intercept(token);
+
+    return axios
+      .put(`${APP_BASE_URL}/${url}`, payload)
+      .then(response => Promise.resolve(response))
+      .catch(error => Promise.reject(error));
   }
 };
