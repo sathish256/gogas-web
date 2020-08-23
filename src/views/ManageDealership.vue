@@ -83,9 +83,9 @@
             <b-form-group label="Street" label-for="street">
               <b-form-input
                 id="street"
-                v-model="address.street"
+                v-model="address.streetName"
                 :class="{
-                  'border-danger': formSubmitted && !address.street.trim()
+                  'border-danger': formSubmitted && !address.streetName.trim()
                 }"
                 required
                 placeholder="Enter street"
@@ -279,7 +279,7 @@ export default {
       ]);
       const isValidAddress = validateObject(this.address, [
         "doorNo",
-        "street",
+        "streetName",
         "pincode"
       ]);
       this.isValidDealershipData = isValidDealership && isValidAddress;
@@ -344,7 +344,7 @@ export default {
       };
       this.address = {
         doorNo: "",
-        street: "",
+        streetName: "",
         locality: "",
         city: "",
         state: "",
