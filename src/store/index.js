@@ -66,6 +66,9 @@ export default new Vuex.Store({
         commit("AUTHENTICATE", resp.data.token);
       });
     },
+    updatePassword({ state }, credentials) {
+      return apiService.updatePassword(state.token, credentials);
+    },
     loggedInUser({ commit, state }) {
       return apiService.get("loggedinuser", state.token).then(resp => {
         commit("LOGGED_IN_USER", resp.data);

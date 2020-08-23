@@ -60,8 +60,6 @@
 </template>
 
 <script>
-import apiService from "@/apiService";
-
 export default {
   name: "MyProfile",
 
@@ -96,8 +94,7 @@ export default {
         this.errorMessage = "New password should be 8 - 16 characters";
       } else {
         try {
-          const token = this.$cookie.get("user_auth");
-          await apiService.updatePassword(token, {
+          await this.$store.dispatch("loggedInUser", {
             phone: this.phone,
             newPassword: this.newPassword,
             currentPassword: this.currentPassword
@@ -108,6 +105,7 @@ export default {
             toaster: "b-toaster-top-center",
             autoHideDelay: 10000
           });
+          this.resetData();
         } catch {
           this.$bvToast.toast("Please verify credentials", {
             title: "Change Password Failed",
@@ -117,6 +115,15 @@ export default {
           });
         }
       }
+    },
+    resetData() {
+      this.isSubmitted = false;
+      this.isValidInfo = true;
+      this.errorMessage = "";
+      this.phone = "";
+      this.currentPassword = "";
+      this.newPassword = "";
+      this.confirmPassword = "";
     }
   }
 };
