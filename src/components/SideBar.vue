@@ -23,6 +23,7 @@
     >
       <MainMenuOptions v-if="navItems[0].isActive" />
       <AdminOptions v-if="navItems[1].isActive" />
+      <Orders v-if="navItems[2].isActive" />
     </b-nav>
   </div>
 </template>
@@ -31,11 +32,12 @@
 import EventBus from "@/event-bus";
 import MainMenuOptions from "@/components/MainMenuOptions";
 import AdminOptions from "@/components/AdminOptions";
+import Orders from "@/views/Orders";
 
 export default {
   name: "SideBar",
 
-  components: { MainMenuOptions, AdminOptions },
+  components: { MainMenuOptions, AdminOptions, Orders },
 
   created() {
     this.setActiveMenu(this.$route.path);
@@ -66,6 +68,11 @@ export default {
           icon: "gear-fill",
           isActive: false,
           paths: ["manage"]
+        },
+        {
+          icon: "handbag",
+          isActive: false,
+          paths: ["orders"]
         }
       ]
     };

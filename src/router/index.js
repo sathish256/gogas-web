@@ -5,6 +5,7 @@ import Home from "@/views/Home.vue";
 import Login from "@/views/Login";
 import Marketing from "@/views/Marketing";
 import Manage from "@/views/Manage";
+import Orders from "@/views/Orders";
 
 import CustomerRegistration from "@/views/CustomerRegistration";
 import ManageProducts from "@/views/ManageProducts";
@@ -13,6 +14,7 @@ import AddUser from "@/views/AddUser";
 import ManageDealership from "@/views/ManageDealership";
 import ManageCnF from "@/views/ManageCnF";
 import MyProfile from "@/views/MyProfile";
+import CustomerOrder from "@/views/CustomerOrder";
 
 Vue.use(VueRouter);
 
@@ -30,6 +32,19 @@ const routes = [
     name: "Login",
     component: Login
   },
+  {
+    path: "/orders",
+    name: "orders",
+    component: Orders,
+    children: [
+      {
+        path: "customer-order",
+        name: "CustomerOrder",
+        component: CustomerOrder
+      }
+    ]
+  },
+
   {
     path: "/marketing",
     name: "Marketing",

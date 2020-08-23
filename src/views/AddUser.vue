@@ -1,14 +1,14 @@
-s<template>
+<template>
   <div>
     <div class="d-flex justify-content-between pr-4">
       <h1>Add User</h1>
       <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate">
-          Create
-        </b-button>
-        <span class="text-danger mr-3" v-if="!isValidUserData">
-          Please fill all mandatory fields
-        </span>
+        <b-button class="my-2" variant="success" @click="onCreate"
+          >Create</b-button
+        >
+        <span class="text-danger mr-3" v-if="!isValidUserData"
+          >Please fill all mandatory fields</span
+        >
       </div>
     </div>
     <div class="form-layout pr-4">
@@ -68,9 +68,9 @@ s<template>
                     }"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null" disabled>
-                        Select Role
-                      </b-form-select-option>
+                      <b-form-select-option :value="null" disabled
+                        >Select Role</b-form-select-option
+                      >
                     </template>
                   </b-form-select>
                 </b-form-group>
@@ -82,9 +82,9 @@ s<template>
                     :options="cAndFOptions"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null">
-                        Select C & F
-                      </b-form-select-option>
+                      <b-form-select-option :value="null"
+                        >Select C & F</b-form-select-option
+                      >
                     </template>
                   </b-form-select>
                 </b-form-group>
@@ -100,9 +100,9 @@ s<template>
                     :options="dealershipOptions"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null">
-                        Select Dealership
-                      </b-form-select-option>
+                      <b-form-select-option :value="null"
+                        >Select Dealership</b-form-select-option
+                      >
                     </template>
                   </b-form-select>
                 </b-form-group>
@@ -131,9 +131,9 @@ s<template>
             <b-form-group label="Type" label-for="type">
               <b-form-select v-model="document.type" :options="documentTypes">
                 <template v-slot:first>
-                  <b-form-select-option :value="null" disabled>
-                    Select Type
-                  </b-form-select-option>
+                  <b-form-select-option :value="null" disabled
+                    >Select Type</b-form-select-option
+                  >
                 </template>
               </b-form-select>
             </b-form-group>
