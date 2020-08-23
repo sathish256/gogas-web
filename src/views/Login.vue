@@ -23,9 +23,7 @@
           Invalid Credentials
         </div>
         <div class="d-flex justify-content-between">
-          <b-button variant="primary" @click="onLogin">
-            Login
-          </b-button>
+          <b-button variant="primary" @click="onLogin">Login</b-button>
           <b-button variant="link" @click="resetPassword"
             >Forgot Password</b-button
           >
@@ -114,5 +112,6 @@ export default {
 <style scoped>
 .login-page {
   height: 100%;
+  width: 100%;
 }
 </style>

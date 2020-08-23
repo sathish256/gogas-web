@@ -3,12 +3,12 @@
     <div class="d-flex justify-content-between pr-4">
       <h1>Add User</h1>
       <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate">
-          Create
-        </b-button>
-        <span class="text-danger mr-3" v-if="!isValidUserData">
-          Please fill all mandatory fields
-        </span>
+        <b-button class="my-2" variant="success" @click="onCreate"
+          >Create</b-button
+        >
+        <span class="text-danger mr-3" v-if="!isValidUserData"
+          >Please fill all mandatory fields</span
+        >
       </div>
     </div>
     <div class="form-layout pr-4">
@@ -68,9 +68,9 @@
                     }"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null" disabled>
-                        Select role
-                      </b-form-select-option>
+                      <b-form-select-option :value="null" disabled
+                        >Select role</b-form-select-option
+                      >
                     </template>
                   </b-form-select>
                 </b-form-group>
@@ -89,9 +89,9 @@
                     }"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null">
-                        Select C & F
-                      </b-form-select-option>
+                      <b-form-select-option :value="null"
+                        >Select C & F</b-form-select-option
+                      >
                     </template>
                   </b-form-select>
                 </b-form-group>
@@ -114,9 +114,9 @@
                     }"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null">
-                        Select dealership
-                      </b-form-select-option>
+                      <b-form-select-option :value="null"
+                        >Select dealership</b-form-select-option
+                      >
                     </template>
                   </b-form-select>
                 </b-form-group>
@@ -138,9 +138,9 @@
               height="100"
             />
             <b-avatar v-else rounded size="6rem" />
-            <b-button class="pp-btn" variant="primary" @click="onUploadImage">
-              Upload
-            </b-button>
+            <b-button class="pp-btn" variant="primary" @click="onUploadImage"
+              >Upload</b-button
+            >
             <input
               type="file"
               style="display: none"
@@ -158,9 +158,9 @@
             <b-form-group label="Document Type" label-for="type">
               <b-form-select v-model="document.type" :options="documentTypes">
                 <template v-slot:first>
-                  <b-form-select-option :value="null" disabled>
-                    Select document
-                  </b-form-select-option>
+                  <b-form-select-option :value="null" disabled
+                    >Select document</b-form-select-option
+                  >
                 </template>
               </b-form-select>
             </b-form-group>
@@ -186,9 +186,9 @@
                 @change="onDocumentSelected"
               />
             </b-form-group>
-            <span class="text-danger position-absolute">{{
-              documentErrorMessage
-            }}</span>
+            <span class="text-danger position-absolute">
+              {{ documentErrorMessage }}
+            </span>
           </b-col>
         </b-row>
       </b-card>
@@ -532,6 +532,6 @@ export default {
 
 <style scoped>
 .pp-btn {
-  width: 43%;
+  width: 6rem;
 }
 </style>
