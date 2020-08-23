@@ -2,6 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import apiService from "@/apiService";
 import { get } from "lodash";
+import firebase from "firebase/app";
+import "firebase/storage";
 
 Vue.use(Vuex);
 
@@ -119,6 +121,22 @@ export default new Vuex.Store({
     },
     updateDealership({ state }, cAndF) {
       return apiService.put("v1/gogas/dealer", state.token, cAndF);
+    },
+    saveToFirestore(_, { file, type }) {
+      const filename = `${Date.now().toString()}_${file.name}`;
+      return firebase
+        .storage()
+        .ref(`${type}/${filename}`)
+        .put(file);
+    },
+    createUser({ state }, user) {
+      return apiService.post("v1/gogas/user", state.token, user);
+    },
+    getDownloadUrl(_, filepath) {
+      return firebase
+        .storage()
+        .ref(filepath)
+        .getDownloadURL();
     }
   }
 });
