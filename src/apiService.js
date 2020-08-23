@@ -1,7 +1,7 @@
 import Vue from "vue";
 import fuelPedia from "@/main";
 
-const APP_BASE_URL = "/api";
+const APP_BASE_URL = process.env.VUE_APP_SERVER_API;
 
 function intercept(token) {
   let http = Vue.prototype.$http;
