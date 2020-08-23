@@ -70,9 +70,9 @@
             <b-form-group label="Office No" label-for="office-no">
               <b-form-input
                 id="office-no"
-                v-model="address.houseNo"
+                v-model="address.doorNo"
                 :class="{
-                  'border-danger': formSubmitted && !address.houseNo.trim()
+                  'border-danger': formSubmitted && !address.doorNo.trim()
                 }"
                 required
                 placeholder="Enter Office #"
@@ -278,7 +278,7 @@ export default {
         "cAndFId"
       ]);
       const isValidAddress = validateObject(this.address, [
-        "houseNo",
+        "doorNo",
         "street",
         "pincode"
       ]);
@@ -343,7 +343,7 @@ export default {
         status: true
       };
       this.address = {
-        houseNo: "",
+        doorNo: "",
         street: "",
         locality: "",
         city: "",
