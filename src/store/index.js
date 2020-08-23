@@ -119,11 +119,11 @@ export default new Vuex.Store({
           console.log(error);
         });
     },
-    createDealership({ state }, cAndF) {
-      return apiService.post("v1/gogas/dealer", state.token, cAndF);
+    createDealership({ state }, dealership) {
+      return apiService.post("v1/gogas/dealer", state.token, dealership);
     },
-    updateDealership({ state }, cAndF) {
-      return apiService.put("v1/gogas/dealer", state.token, cAndF);
+    updateDealership({ state }, dealership) {
+      return apiService.put("v1/gogas/dealer", state.token, dealership);
     },
     saveToFirestore(_, { file, type }) {
       const filename = `${Date.now().toString()}_${file.name}`;

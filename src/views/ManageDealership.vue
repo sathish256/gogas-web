@@ -344,7 +344,7 @@ export default {
         return;
       }
       const dealership = {
-        ...this.cnfInfo,
+        ...this.dealerInfo,
         address: this.address,
         dealerAllocation: this.dealerAllocation,
         candfId: this.isAdmin ? this.dealerInfo.cAndFId : this.userCAndFId,
