@@ -2,17 +2,30 @@
   <div>
     <div class="d-flex justify-content-between pr-4">
       <h1>Manage Dealership</h1>
-      <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate">
-          Create
-        </b-button>
-        <span class="text-danger mr-3" v-if="!isValidDealershipData">
-          Please fill all mandatory fields
-        </span>
-      </div>
+      <b-button
+        class="my-2"
+        variant="primary"
+        @click="addOrEdit = true"
+        v-if="!addOrEdit"
+        >Add New Dealership</b-button
+      >
     </div>
     <div class="form-layout pr-4">
-      <b-card title="Dealership">
+      <b-card v-if="addOrEdit">
+        <div class="d-flex justify-content-between">
+          <b-card-title>Dealership</b-card-title>
+          <div class="d-flex flex-row-reverse align-items-center">
+            <b-button class="my-2" variant="outline-danger" @click="resetData"
+              >Cancel</b-button
+            >
+            <b-button class="my-2 mr-3" variant="success" @click="onCreate">{{
+              dealerInfo.id ? "Update" : "Create"
+            }}</b-button>
+            <span class="text-danger mr-3" v-if="!isValidDealershipData"
+              >Please fill all mandatory fields</span
+            >
+          </div>
+        </div>
         <b-row>
           <b-col cols="12" md="3">
             <b-form-group label="Name" label-for="name">
@@ -154,9 +167,9 @@
                 text-field="name"
               >
                 <template v-slot:first>
-                  <b-form-select-option :value="null" disabled>
-                    Select C & F
-                  </b-form-select-option>
+                  <b-form-select-option :value="null" disabled
+                    >Select C & F</b-form-select-option
+                  >
                 </template>
               </b-form-select>
             </b-form-group>
@@ -173,9 +186,44 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-button variant="primary" @click="openAllocationModal">
-          Product Allocation
-        </b-button>
+        <b-button variant="primary" @click="openAllocationModal"
+          >Product Allocation</b-button
+        >
+      </b-card>
+    </div>
+    <div>
+      <b-card class="mt-3" title="All Dealerships">
+        <b-table
+          class="mt-3"
+          head-variant="light"
+          sticky-header
+          :bordered="true"
+          :fixed="true"
+          :items="allDealership"
+          :fields="tableFields"
+          :show-empty="true"
+          empty-text="No lists Available"
+        >
+          <template v-slot:cell(name)="row">{{ row.item.name }}</template>
+          <template v-slot:cell(address)="row">
+            {{ row.item.address.doorNo }}, {{ row.item.address.streetName }},
+            {{ row.item.address.locality }}, {{ row.item.address.city }},
+            {{ row.item.address.pincode }}
+          </template>
+          <template v-slot:cell(status)="row">
+            <div class="d-flex justify-content-between">
+              {{ status[row.item.status] }}
+              <button
+                vatiant="primary"
+                size="sm"
+                class="mr-2"
+                @click="onEdit(row.index)"
+              >
+                <b-icon icon="pencil" />
+              </button>
+            </div>
+          </template>
+        </b-table>
       </b-card>
     </div>
     <b-modal id="allocation-modal" centered title="Product Allocation">
@@ -218,9 +266,9 @@
           </b-button>
         </b-col>
       </b-row>
-      <b-button size="sm" variant="link" @click="onAddProduct">
-        Add Product
-      </b-button>
+      <b-button size="sm" variant="link" @click="onAddProduct"
+        >Add Product</b-button
+      >
       <template v-slot:modal-footer="{ cancel }">
         <b-button variant="success" @click="saveAllocation">Save</b-button>
         <b-button variant="outline-danger" @click="cancel">Cancel</b-button>
@@ -239,6 +287,13 @@ export default {
 
   data() {
     return {
+      tableFields: [
+        "name",
+        "address",
+        { key: "owner", label: " Owner Details" },
+        "status"
+      ],
+      addOrEdit: false,
       dealerAllocation: [],
       manageAllocation: [],
       validAllocations: true,
@@ -259,8 +314,10 @@ export default {
       "isCAndF",
       "userId",
       "allCAndF",
+      "allDealership",
       "userCAndFId",
-      "products"
+      "products",
+      "status"
     ]),
     selectedCAndF() {
       return this.allCAndF.find(cAndF => cAndF.id === this.userCAndFId);
@@ -330,7 +387,23 @@ export default {
         this.$bvModal.hide("allocation-modal");
       }
     },
+    onEdit(index) {
+      this.addOrEdit = true;
+      const selectedDealer = cloneDeep(this.allDealership[index]);
+      this.dealerInfo = {
+        id: selectedDealer.id,
+        name: selectedDealer.name ? selectedDealer.name : "",
+        phone: selectedDealer.phone ? selectedDealer.phone : "",
+        ownerPhone: selectedDealer.ownerPhone ? selectedDealer.ownerPhone : "",
+        ownerName: selectedDealer.ownerName ? selectedDealer.ownerName : "",
+
+        status: selectedDealer.status === "ACTIVE"
+      };
+
+      this.address = selectedDealer.address;
+    },
     resetData() {
+      this.addOrEdit = false;
       this.dealerAllocation = [];
       this.manageAllocation = [];
       this.formSubmitted = false;
