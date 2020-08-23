@@ -19,6 +19,7 @@ export default new Vuex.Store({
     ],
     allCAndF: [],
     products: [],
+    allDealership: [],
     registrations: []
   },
   getters: {
@@ -32,7 +33,8 @@ export default new Vuex.Store({
     isAdmin: state => get(state, "user.role", null) === "ADMIN",
     isCAndF: state => get(state, "user.role", null) === "CANDF",
     allCAndF: state => state.allCAndF,
-    products: state => state.products
+    products: state => state.products,
+    allDealership: state => state.allDealership
   },
   mutations: {
     AUTHENTICATE(state, token) {
@@ -52,7 +54,7 @@ export default new Vuex.Store({
       state.products = products;
     },
     FETCH_DEALERSHIP(state, dealerships) {
-      state.products = dealerships;
+      state.allDealership = dealerships;
     }
   },
   actions: {

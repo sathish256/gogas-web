@@ -3,12 +3,12 @@
     <div class="d-flex justify-content-between pr-4">
       <h1>Add User</h1>
       <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate"
-          >Create</b-button
-        >
-        <span class="text-danger mr-3" v-if="!isValidUserData"
-          >Please fill all mandatory fields</span
-        >
+        <b-button class="my-2" variant="success" @click="onCreate">
+          Create
+        </b-button>
+        <span class="text-danger mr-3" v-if="!isValidUserData">
+          Please fill all mandatory fields
+        </span>
       </div>
     </div>
     <div class="form-layout pr-4">
@@ -68,41 +68,37 @@
                     }"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null" disabled
-                        >Select Role</b-form-select-option
-                      >
+                      <b-form-select-option :value="null" disabled>
+                        Select role
+                      </b-form-select-option>
                     </template>
                   </b-form-select>
                 </b-form-group>
               </b-col>
-              <b-col cols="12" md="4" v-if="userInfo.role !== 'ADMIN'">
+              <b-col cols="12" md="4">
                 <b-form-group label="C & F" label-for="cnf">
                   <b-form-select
                     v-model="userInfo.candF"
                     :options="cAndFOptions"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null"
-                        >Select C & F</b-form-select-option
-                      >
+                      <b-form-select-option :value="null">
+                        Select C & F
+                      </b-form-select-option>
                     </template>
                   </b-form-select>
                 </b-form-group>
               </b-col>
-              <b-col
-                cols="12"
-                md="4"
-                v-if="userInfo.role !== 'ADMIN' && userInfo.role !== 'CANDF'"
-              >
+              <b-col cols="12" md="4">
                 <b-form-group label="Dealership" label-for="dealership">
                   <b-form-select
                     v-model="userInfo.dealership"
                     :options="dealershipOptions"
                   >
                     <template v-slot:first>
-                      <b-form-select-option :value="null"
-                        >Select Dealership</b-form-select-option
-                      >
+                      <b-form-select-option :value="null">
+                        Select dealership
+                      </b-form-select-option>
                     </template>
                   </b-form-select>
                 </b-form-group>
@@ -125,25 +121,25 @@
         </b-row>
       </b-card>
 
-      <b-card class="mt-3" title="Document">
+      <b-card class="mt-3" title="Identity Proof">
         <b-row>
           <b-col cols="12" md="3">
-            <b-form-group label="Type" label-for="type">
+            <b-form-group label="Document Type" label-for="type">
               <b-form-select v-model="document.type" :options="documentTypes">
                 <template v-slot:first>
-                  <b-form-select-option :value="null" disabled
-                    >Select Type</b-form-select-option
-                  >
+                  <b-form-select-option :value="null" disabled>
+                    Select document
+                  </b-form-select-option>
                 </template>
               </b-form-select>
             </b-form-group>
           </b-col>
           <b-col cols="12" md="3">
-            <b-form-group label="Number" label-for="number">
+            <b-form-group label="Document Number" label-for="number">
               <b-form-input
                 id="number"
                 v-model="document.type"
-                placeholder="Enter Number"
+                placeholder="Enter document #"
               />
             </b-form-group>
           </b-col>
@@ -269,7 +265,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { get } from "lodash";
 import { validateObject } from "@/helpers/utils";
 
 export default {
@@ -287,20 +282,7 @@ export default {
         candF: null,
         dealership: null
       },
-      documentTypes: [
-        "Aadhar",
-        "Lease agreement",
-        "Telephone/Electricity/Water Bill",
-        "Self-declaration attested by a gazette officer",
-        "Flat allotment/possession letter",
-        "LIC policy",
-        "Driving license",
-        "Voter ID",
-        "Passport",
-        "Ration Card",
-        "House registration document",
-        "Bank/Credit card"
-      ],
+      documentTypes: ["Aadhar", "Driving License", "Voter ID", "Passport"],
       address: {
         houseNo: "",
         street: "",
@@ -318,7 +300,14 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["isAdmin", "isCAndF", "roles", "allCAndF", "user"]),
+    ...mapGetters([
+      "isAdmin",
+      "isCAndF",
+      "roles",
+      "allCAndF",
+      "user",
+      "allDealership"
+    ]),
     userRoles() {
       if (this.isAdmin) {
         return this.roles;
@@ -331,16 +320,10 @@ export default {
       );
     },
     cAndFOptions() {
-      if (this.isAdmin) {
-        return this.allCAndF.map(c => ({ value: c.id, text: c.name }));
-      }
-      return {
-        value: get(this.user, "candF.id", null),
-        text: get(this.user, "candF.name", null)
-      };
+      return this.allCAndF.map(c => ({ value: c.id, text: c.name }));
     },
     dealershipOptions() {
-      return [];
+      return this.allDealership.map(d => ({ value: d.id, text: d.name }));
     }
   },
 
