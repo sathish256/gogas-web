@@ -50,6 +50,9 @@ export default new Vuex.Store({
     },
     FETCH_PRODUCTS(state, products) {
       state.products = products;
+    },
+    FETCH_DEALERSHIP(state, dealerships) {
+      state.products = dealerships;
     }
   },
   actions: {
@@ -98,6 +101,22 @@ export default new Vuex.Store({
     },
     updateProduct({ state }, cAndF) {
       return apiService.put("v1/gogas/product", state.token, cAndF);
+    },
+    fetchAllDealership({ commit, state }) {
+      return apiService
+        .get("v1/gogas/dealer/findall", state.token)
+        .then(resp => {
+          commit("FETCH_DEALERSHIP", resp.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    createDealership({ state }, cAndF) {
+      return apiService.post("v1/gogas/dealer", state.token, cAndF);
+    },
+    updateDealership({ state }, cAndF) {
+      return apiService.put("v1/gogas/dealer", state.token, cAndF);
     }
   }
 });

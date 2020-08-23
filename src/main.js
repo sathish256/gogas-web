@@ -2,7 +2,6 @@ import Vue from "vue";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import { BootstrapVueIcons } from "bootstrap-vue";
 import VueGeolocation from "vue-browser-geolocation";
-import VueCookie from "vue-cookie";
 import axios from "axios";
 
 import App from "./App.vue";
@@ -18,7 +17,6 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(BootstrapVueIcons);
 Vue.use(VueGeolocation);
-Vue.use(VueCookie);
 
 const fuelPedia = new Vue({
   router,

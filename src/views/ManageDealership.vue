@@ -3,76 +3,69 @@
     <div class="d-flex justify-content-between pr-4">
       <h1>Manage Dealership</h1>
       <div class="d-flex flex-row-reverse align-items-center">
-        <b-button class="my-2" variant="success" @click="onCreate"
-          >Create</b-button
-        >
-        <span class="text-danger mr-3" v-if="!isValidDealershipData"
-          >Please fill all mandatory fields</span
-        >
+        <b-button class="my-2" variant="success" @click="onCreate">
+          Create
+        </b-button>
+        <span class="text-danger mr-3" v-if="!isValidDealershipData">
+          Please fill all mandatory fields
+        </span>
       </div>
     </div>
     <div class="form-layout pr-4">
-      <b-card title="Dealer Ship">
+      <b-card title="Dealership">
         <b-row>
-          <b-col cols="12" md="12">
-            <b-row>
-              <b-col cols="12" md="3">
-                <b-form-group label="Name" label-for="name">
-                  <b-form-input
-                    id="name"
-                    v-model="dealerInfo.name"
-                    :class="{
-                      'border-danger': formSubmitted && !dealerInfo.name.trim()
-                    }"
-                    required
-                    placeholder="Enter name"
-                  />
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" md="3">
-                <b-form-group label="Phone" label-for="phone">
-                  <b-form-input
-                    id="phone"
-                    v-model="dealerInfo.phone"
-                    required
-                    :class="{
-                      'border-danger': formSubmitted && !dealerInfo.phone.trim()
-                    }"
-                    placeholder="Enter phone"
-                  />
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" md="3">
-                <b-form-group label="Owner Name" label-for="owner-name">
-                  <b-form-input
-                    id="owner-name"
-                    v-model="dealerInfo.ownerName"
-                    required
-                    :class="{
-                      'border-danger':
-                        formSubmitted && !dealerInfo.ownerName.trim()
-                    }"
-                    placeholder="Enter owner name"
-                  />
-                </b-form-group>
-              </b-col>
-              <b-col cols="12" md="3">
-                <b-form-group label="Owner Phone" label-for="owner-phone">
-                  <b-form-input
-                    id="owner-phone"
-                    v-model="dealerInfo.ownerPhone"
-                    :class="{
-                      'border-danger':
-                        formSubmitted && !dealerInfo.ownerPhone.trim()
-                    }"
-                    placeholder="Enter owner phone"
-                  />
-                </b-form-group>
-              </b-col>
-            </b-row>
+          <b-col cols="12" md="3">
+            <b-form-group label="Name" label-for="name">
+              <b-form-input
+                id="name"
+                v-model="dealerInfo.name"
+                :class="{
+                  'border-danger': formSubmitted && !dealerInfo.name.trim()
+                }"
+                required
+                placeholder="Enter name"
+              />
+            </b-form-group>
           </b-col>
-        </b-row>
-        <b-row>
+          <b-col cols="12" md="3">
+            <b-form-group label="Phone" label-for="phone">
+              <b-form-input
+                id="phone"
+                v-model="dealerInfo.phone"
+                required
+                :class="{
+                  'border-danger': formSubmitted && !dealerInfo.phone.trim()
+                }"
+                placeholder="Enter phone"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="Owner Name" label-for="owner-name">
+              <b-form-input
+                id="owner-name"
+                v-model="dealerInfo.ownerName"
+                required
+                :class="{
+                  'border-danger': formSubmitted && !dealerInfo.ownerName.trim()
+                }"
+                placeholder="Enter owner name"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="Owner Phone" label-for="owner-phone">
+              <b-form-input
+                id="owner-phone"
+                v-model="dealerInfo.ownerPhone"
+                :class="{
+                  'border-danger':
+                    formSubmitted && !dealerInfo.ownerPhone.trim()
+                }"
+                placeholder="Enter owner phone"
+              />
+            </b-form-group>
+          </b-col>
           <b-col cols="12" md="3">
             <b-form-group label="Office No" label-for="office-no">
               <b-form-input
@@ -109,8 +102,6 @@
               />
             </b-form-group>
           </b-col>
-        </b-row>
-        <b-row>
           <b-col cols="12" md="3">
             <b-form-group label="City" label-for="city">
               <b-form-input
@@ -144,66 +135,136 @@
               />
             </b-form-group>
           </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="C & F" label-for="cAndF">
+              <b-form-input
+                v-if="isCAndF"
+                id="cAndF"
+                :value="selectedCAndF.name"
+              />
+              <b-form-select
+                v-else
+                id="cAndF"
+                :class="{
+                  'border-danger': formSubmitted && !dealerInfo.cAndFId
+                }"
+                v-model="dealerInfo.cAndFId"
+                :options="allCAndF"
+                value-field="id"
+                text-field="name"
+              >
+                <template v-slot:first>
+                  <b-form-select-option :value="null" disabled>
+                    Select C & F
+                  </b-form-select-option>
+                </template>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+          <b-col cols="12" md="3">
+            <b-form-group label="Status" label-for="status">
+              <b-form-checkbox
+                id="status"
+                v-model="dealerInfo.status"
+                switch
+                size="lg"
+                :state="dealerInfo.status"
+              />
+            </b-form-group>
+          </b-col>
         </b-row>
+        <b-button variant="primary" @click="openAllocationModal">
+          Product Allocation
+        </b-button>
       </b-card>
     </div>
-    <div class="form-layout pr-4">
-      <b-card class="mt-3" title="Product Alocations">
-        <b-row
-          v-for="(requirement, index) in requirements"
-          :key="index"
-          calss="mb-2"
-        >
-          <b-col cols="3">
-            <b-select
-              v-model="requirement.productId"
-              :options="products"
-              text-field="name"
-              value-field="id"
-            />
-          </b-col>
-          <b-col cols="2">
-            <b-form-input v-model="requirement.quantity" type="number" />
-          </b-col>
-          <b-col cols="1">
-            <b-button variant="danger" @click="onDeleteAllocation(index)">
-              <b-icon icon="trash" />
-            </b-button>
-          </b-col>
-        </b-row>
-        <b-button variant="primary" @click="onAllocation"
-          >Add Alocations</b-button
-        >
-      </b-card>
-    </div>
+    <b-modal id="allocation-modal" centered title="Product Allocation">
+      <b-row v-if="manageAllocation.length > 0">
+        <b-col cols="6">Product</b-col>
+        <b-col cols="4">Quantity</b-col>
+        <b-col cols="2"></b-col>
+      </b-row>
+      <b-row
+        v-for="(allocation, index) in manageAllocation"
+        :key="index"
+        class="mb-2"
+      >
+        <b-col cols="6">
+          <b-form-select
+            v-model="allocation.productId"
+            :options="products"
+            text-field="name"
+            value-field="id"
+            :class="{
+              'border-danger': !validAllocations && !allocation.productId
+            }"
+          />
+        </b-col>
+        <b-col cols="4">
+          <b-form-input
+            v-model="allocation.quantity"
+            type="number"
+            min="1"
+            :class="{
+              'border-danger':
+                !validAllocations &&
+                (!allocation.quantity || allocation.quantity < 1)
+            }"
+          />
+        </b-col>
+        <b-col cols="2">
+          <b-button variant="danger" @click="onDeleteProduct(index)">
+            <b-icon icon="trash" />
+          </b-button>
+        </b-col>
+      </b-row>
+      <b-button size="sm" variant="link" @click="onAddProduct">
+        Add Product
+      </b-button>
+      <template v-slot:modal-footer="{ cancel }">
+        <b-button variant="success" @click="saveAllocation">Save</b-button>
+        <b-button variant="outline-danger" @click="cancel">Cancel</b-button>
+      </template>
+    </b-modal>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { cloneDeep } from "lodash";
 import { validateObject } from "@/helpers/utils";
+
 export default {
-  name: "ManageDelearship",
+  name: "ManageDealership",
 
   data() {
     return {
-      requirements: [],
+      dealerAllocation: [],
+      manageAllocation: [],
+      validAllocations: true,
       isValidDealershipData: true,
       formSubmitted: false,
-      dealerInfo: {
-        name: "",
-        phone: "",
-        ownerName: "",
-        ownerPhone: ""
-      },
-      address: {
-        houseNo: "",
-        street: "",
-        locality: "",
-        city: "",
-        state: "",
-        pincode: ""
-      }
+      dealerInfo: {},
+      address: {}
     };
+  },
+
+  created() {
+    this.resetData();
+  },
+
+  computed: {
+    ...mapGetters([
+      "isAdmin",
+      "isCAndF",
+      "userId",
+      "allCAndF",
+      "userCAndFId",
+      "products"
+    ]),
+    selectedCAndF() {
+      return this.allCAndF.find(cAndF => cAndF.id === this.userCAndFId);
+    }
   },
 
   methods: {
@@ -213,25 +274,82 @@ export default {
         "name",
         "phone",
         "ownerName",
-        "ownerPhone"
+        "ownerPhone",
+        "cAndFId"
       ]);
-
       const isValidAddress = validateObject(this.address, [
         "houseNo",
         "street",
         "pincode"
       ]);
-
       this.isValidDealershipData = isValidDealership && isValidAddress;
+      if (!this.isValidDealershipData) {
+        return;
+      }
+      const dealership = {
+        ...this.cnfInfo,
+        address: this.address,
+        dealerAllocation: this.dealerAllocation,
+        candfId: this.isAdmin ? this.dealerInfo.cAndFId : this.userCAndFId,
+        createdBy: this.dealerInfo.id ? this.dealerInfo.createdBy : this.userId,
+        lastmodifiedBy: this.userId,
+        status: this.dealerInfo.status ? "ACTIVE" : "INACTIVE"
+      };
+      await this.$store.dispatch(
+        dealership.id ? "updateDealership" : "createDealership",
+        dealership
+      );
+      await this.$store.dispatch("fetchAllDealership");
+      this.$bvToast.toast(
+        `${dealership.id ? "Update" : "Created"} Dealership!`,
+        {
+          title: "Success",
+          variant: "success",
+          toaster: "b-toaster-top-center",
+          autoHideDelay: 2000
+        }
+      );
+      this.resetData();
     },
-    onAllocation() {
-      this.requirements.push({
-        productId: null,
-        quantity: null
-      });
+    openAllocationModal() {
+      this.$bvModal.show("allocation-modal");
+      this.manageAllocation = cloneDeep(this.dealerAllocation);
     },
-    onDeleteAllocation(index) {
-      this.requirements.splice(index, 1);
+    onAddProduct() {
+      this.manageAllocation.push({ productId: null, quantity: 1 });
+    },
+    onDeleteProduct(index) {
+      this.manageAllocation.splice(index, 1);
+    },
+    saveAllocation() {
+      this.validAllocations = this.dealerAllocation.every(
+        allocation => !!allocation.productId && allocation.quantity > 0
+      );
+      if (this.validAllocations) {
+        this.dealerAllocation = cloneDeep(this.manageAllocation);
+        this.$bvModal.hide("allocation-modal");
+      }
+    },
+    resetData() {
+      this.dealerAllocation = [];
+      this.manageAllocation = [];
+      this.formSubmitted = false;
+      this.dealerInfo = {
+        name: "",
+        phone: "",
+        ownerName: "",
+        ownerPhone: "",
+        cAndFId: null,
+        status: true
+      };
+      this.address = {
+        houseNo: "",
+        street: "",
+        locality: "",
+        city: "",
+        state: "",
+        pincode: ""
+      };
     }
   }
 };
