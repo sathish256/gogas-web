@@ -30,6 +30,7 @@ export default {
     if (this.isLoggedIn) {
       this.$store.dispatch("loggedInUser");
       this.$store.dispatch("fetchAllCAndF");
+      this.$store.dispatch("fetchAllDealership");
       this.$store.dispatch("fetchAllProducts");
     }
   }
