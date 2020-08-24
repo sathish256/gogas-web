@@ -1,7 +1,7 @@
 <template>
-  <b-row class="login-page pr-5" align-v="center">
-    <b-col cols="4" offset="8">
-      <b-card>
+  <div class="login-page d-flex align-items-center justify-content-end">
+    <b-card>
+      <b-form @submit.prevent="onLogin">
         <b-form-group label="Phone" label-for="phone">
           <b-form-input
             id="phone"
@@ -16,23 +16,22 @@
             v-model="password"
             placeholder="Enter Password"
             type="password"
+            autocomplete="on"
             :class="{ 'border-danger': isSubmitted && !password.trim() }"
           />
         </b-form-group>
-        <div class="text-danger mb-2" v-if="isLoginFailed">
+        <div class="text-danger mb-2" v-if="!isValidCredentials">
           Invalid Credentials
         </div>
         <div class="d-flex justify-content-between">
-          <b-button variant="primary" @click="onLogin">
-            Login
+          <b-button variant="primary" type="submit">Login</b-button>
+          <b-button variant="link" @click="resetPassword">
+            Forgot Password
           </b-button>
-          <b-button variant="link" @click="resetPassword"
-            >Forgot Password</b-button
-          >
         </div>
-      </b-card>
-    </b-col>
-  </b-row>
+      </b-form>
+    </b-card>
+  </div>
 </template>
 
 <script>
@@ -45,7 +44,6 @@ export default {
   data() {
     return {
       isSubmitted: false,
-      isLoginFailed: false,
       isValidCredentials: true,
       phone: "",
       password: ""
@@ -75,7 +73,7 @@ export default {
           await this.$store.dispatch("loggedInUser");
           this.$router.push({ name: "Home" });
         } catch {
-          this.isLoginFailed = true;
+          this.isValidCredentials = false;
           this.$bvToast.toast("Authentication Error while logging in...", {
             title: "Error!",
             variant: "danger",
@@ -111,8 +109,22 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .login-page {
   height: 100%;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .login-page {
+    justify-content: center !important;
+  }
+}
+@media (min-width: 768px) {
+  .login-page {
+    padding-right: 3rem;
+    .card {
+      width: 20%;
+    }
+  }
 }
 </style>

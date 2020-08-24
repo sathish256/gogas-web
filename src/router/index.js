@@ -3,9 +3,7 @@ import VueRouter from "vue-router";
 
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login";
-import Marketing from "@/views/Marketing";
-import Manage from "@/views/Manage";
-import Orders from "@/views/Orders";
+import ContentPage from "@/views/ContentPage";
 
 import CustomerRegistration from "@/views/CustomerRegistration";
 import ManageProducts from "@/views/ManageProducts";
@@ -35,20 +33,23 @@ const routes = [
   {
     path: "/orders",
     name: "orders",
-    component: Orders,
+    component: ContentPage,
     children: [
       {
         path: "customer-order",
         name: "CustomerOrder",
         component: CustomerOrder
       }
-    ]
+    ],
+    meta: {
+      requiresAuth: true
+    }
   },
 
   {
     path: "/marketing",
     name: "Marketing",
-    component: Marketing,
+    component: ContentPage,
     children: [
       {
         path: "customer-registration",
@@ -68,7 +69,7 @@ const routes = [
   {
     path: "/manage",
     name: "Manage",
-    component: Manage,
+    component: ContentPage,
     children: [
       {
         path: "products",

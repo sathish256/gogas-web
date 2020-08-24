@@ -186,12 +186,10 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-button variant="primary" @click="openAllocationModal"
-          >Product Allocation</b-button
-        >
+        <b-button variant="primary" @click="openAllocationModal">
+          Product Allocation
+        </b-button>
       </b-card>
-    </div>
-    <div>
       <b-card class="mt-3" title="All Dealerships">
         <b-table
           class="mt-3"
@@ -204,23 +202,38 @@
           :show-empty="true"
           empty-text="No lists Available"
         >
-          <template v-slot:cell(name)="row">{{ row.item.name }}</template>
+          <template v-slot:cell(owner)="row">
+            {{ row.item.ownerName }} ({{ row.item.ownerPhone }})
+          </template>
           <template v-slot:cell(address)="row">
             {{ row.item.address.doorNo }}, {{ row.item.address.streetName }},
             {{ row.item.address.locality }}, {{ row.item.address.city }},
             {{ row.item.address.pincode }}
           </template>
+          <template v-slot:cell(allocation)="row">
+            <p v-if="!row.item.dealerAllocation.length">
+              No Products Allocated
+            </p>
+            <p
+              class="mb-0"
+              v-for="(allocation, index) in row.item.dealerAllocation"
+              :key="index"
+            >
+              {{ allocation.quantity }} X
+              {{ getProductById(allocation.productId) }}
+            </p>
+          </template>
           <template v-slot:cell(status)="row">
             <div class="d-flex justify-content-between">
               {{ status[row.item.status] }}
-              <button
-                vatiant="primary"
+              <b-button
+                variant="primary"
                 size="sm"
                 class="mr-2"
                 @click="onEdit(row.index)"
               >
                 <b-icon icon="pencil" />
-              </button>
+              </b-button>
             </div>
           </template>
         </b-table>
@@ -291,6 +304,7 @@ export default {
         "name",
         "address",
         { key: "owner", label: " Owner Details" },
+        "allocation",
         "status"
       ],
       addOrEdit: false,
@@ -344,7 +358,7 @@ export default {
         return;
       }
       const dealership = {
-        ...this.cnfInfo,
+        ...this.dealerInfo,
         address: this.address,
         dealerAllocation: this.dealerAllocation,
         candfId: this.isAdmin ? this.dealerInfo.cAndFId : this.userCAndFId,
@@ -423,6 +437,9 @@ export default {
         state: "",
         pincode: ""
       };
+    },
+    getProductById(productId) {
+      return this.products.find(p => p.id === productId).name;
     }
   }
 };

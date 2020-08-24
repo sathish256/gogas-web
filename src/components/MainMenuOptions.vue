@@ -27,7 +27,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .nav-link {
   padding: 0 1rem;
   color: black;
