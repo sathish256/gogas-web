@@ -3,7 +3,7 @@
     <b-navbar-nav>
       <b-nav-item v-if="isLoggedIn">
         <b-icon
-          shift-v="-2"
+          shift-v="-1"
           class="h2 mb-2"
           icon="list"
           variant="light"
@@ -16,7 +16,7 @@
     </b-navbar-nav>
     <b-navbar-nav v-if="isLoggedIn" class="ml-auto">
       <b-nav-item @click="logout">
-        <b-icon shift-v="-2" class="h2 mb-2" icon="power" variant="danger" />
+        <b-icon shift-v="-1" class="h2 mb-2" icon="power" variant="danger" />
       </b-nav-item>
     </b-navbar-nav>
   </b-navbar>
@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .header {
   z-index: 99;
   position: fixed;
@@ -59,6 +59,9 @@ export default {
     black,
     transparent
   );
+  .navbar-nav {
+    flex-direction: row;
+  }
 }
 .h2 {
   font-size: 1.75rem !important;

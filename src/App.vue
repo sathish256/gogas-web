@@ -4,9 +4,7 @@
     <Login v-if="!isLoggedIn" />
     <div v-else>
       <SideBar />
-      <div class="ml-20 pt-16">
-        <router-view />
-      </div>
+      <ContentPage />
     </div>
   </div>
 </template>
@@ -16,11 +14,12 @@ import { mapGetters } from "vuex";
 import Header from "@/components/Header";
 import SideBar from "@/components/SideBar";
 import Login from "@/views/Login";
+import ContentPage from "@/views/ContentPage";
 
 export default {
   name: "App",
 
-  components: { Login, SideBar, Header },
+  components: { ContentPage, Login, SideBar, Header },
 
   computed: {
     ...mapGetters(["isLoggedIn"])
